@@ -1,0 +1,31 @@
+@use './aps' with (
+  // Light Colors
+  $lightBase: #fff,
+  $lightPrimary: #A0CCF2,
+  $lightDanger: #F28D9E,
+  $lightWarning: #FFCD86,
+  $lightSuccess: #93F9CF,
+  // $lightLink: color.complement($lightPrimary),
+  $lightText: #000,
+
+  // Dark Colors
+  $darkBase: #252525,
+  // $darkPrimary: #184A8C,
+  // $darkDanger: #D92546,
+  // $darkWarning: #F2B807,
+  // $darkSuccess: #7AA638,
+  // $darkLink: color.adjust(color.complement($darkPrimary), $lightness: 20%),
+  $darkText: #aaa,
+
+  // Typography
+  $size: 16px,
+  $family: "Helvetica, Ariel, sans-serif",
+  $weight: 100,
+
+  // Effects
+  $depth: 0,
+  $roundness: .4rem,
+  $transluceny: .2,
+  $whiteSpace: 0,
+  $duration: .2s,
+);

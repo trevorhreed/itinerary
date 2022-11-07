@@ -1,0 +1,14 @@
+@use '../draft3-lib' with (
+  $config: (
+    // widths: (800px),
+    // size: 22px,
+    // colors: (
+    //   neutral: (hue: 220, saturation:  5%, light-offset: 15%),
+    //   primary: (hue: 222, saturation: 40%, light-offset:  0%),
+    //    accent: (hue: 300, saturation: 25%, light-offset: 15%),
+    //    danger: (hue:   0, saturation: 60%, light-offset: 15%),
+    //   warning: (hue:  38, saturation: 80%, light-offset: 15%),
+    //   success: (hue:  90, saturation: 40%, light-offset: 15%),
+    // )
+  )
+);

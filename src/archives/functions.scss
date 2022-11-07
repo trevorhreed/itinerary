@@ -1,0 +1,97 @@
+@function darken($color, $label: '') {
+  $lightness: color.lightness($color);
+  @return color.adjust($color, $lightness: (100 - $lightness) - $lightness);
+}
+
+@function to-text-color($base, $color) {
+  $baseBrightness: round((red($base) * 299) + (green($base) * 587) + math.div((blue($base) * 114), 1000));
+  $lightColor: round((red(#ffffff) * 299) + (green(#ffffff) * 587) + math.div((blue(#ffffff) * 114), 1000));
+  $colorLightness: color.lightness($color);
+  @if abs($baseBrightness) < math.div($lightColor, 2) {
+    @return color.adjust($color, $lightness: 90 - $colorLightness);
+  } @else {
+    @return color.adjust($color, $lightness: 10 - $colorLightness);
+  }
+}
+
+
+
+// Light Colors
+$lightBase: #fff !default;
+$lightPrimary: #a3d1ff !default; // 0066cc
+$lightDanger: #ffc8cc !default; // FF4858
+$lightWarning: #ffe2ba !default; // FF9F1C
+$lightSuccess: #9dffc8 !default; // 00D851
+$lightLink: to-text-color($lightBase, $lightPrimary) !default;
+$lightText: #000 !default;
+
+// Dark Colors
+$darkBase: darken($lightBase) !default; // 252525
+$darkPrimary: darken($lightPrimary, 'Primary: ') !default; // 0055aa
+$darkDanger: darken($lightDanger) !default; // a3000e
+$darkWarning: darken($lightWarning) !default; // 7e4800
+$darkSuccess: darken($lightSuccess) !default; // 005c28
+$darkLink: to-text-color($darkBase, $darkPrimary) !default;
+$darkText: #eee !default;
+
+// Typography
+$size: 16px !default;
+$family: "Helvetica, Ariel, sans-serif" !default;
+$weight: 100 !default;
+
+// Effects
+$depth: 0 !default;
+$roundness: .4rem !default;
+$transluceny: .2 !default; // between 0 and 1
+$whiteSpace: 0 !default;
+$duration: .2s !default;
+
+
+@function is-dark($color) {
+  @return lightness($color) < 50;
+}
+
+@function pitch($color, $amount, $isDark: 'undefined') {
+  @if ($isDark == 'undefined') {
+    $isDark: is-dark($color);
+  }
+  @if ($isDark) {
+    @return color.adjust($color, $lightness: $amount * 1%);
+  } @else {
+    @return color.adjust($color, $lightness: -$amount * 1%);
+  }
+}
+
+@function text($background) {
+  $color-brightness: round((red($background) * 299) + (green($background) * 587) + math.div((blue($background) * 114), 1000));
+  $light-color: round((red(#ffffff) * 299) + (green(#ffffff) * 587) + math.div((blue(#ffffff) * 114), 1000));
+  @if abs($color-brightness) < math.div($light-color, 2) {
+    @return #ddd;
+  } @else {
+    @return #000;
+  }
+}
+
+@function soft-text($background) {
+  $color-brightness: round((red($background) * 299) + (green($background) * 587) + (blue($background) * 114) / 1000);
+  $light-color: round((red(#ffffff) * 299) + (green(#ffffff) * 587) + (blue(#ffffff) * 114) / 1000);
+  @if abs($color-brightness) < ($light-color/2){
+    @return #aaa;
+  } @else {
+    @return #555;
+  }
+}
+
+@function gray($color) {
+  @return color.adjust($color, $saturation: 0%);
+}
+
+@function border($background, $type) {
+  // $type = default | active | hover | focus
+  @return $background; // TODO fix this
+}
+
+@function background($color, $type) {
+  // $type = default | active | hover | focus
+  @return $color; // TODO fix this
+}

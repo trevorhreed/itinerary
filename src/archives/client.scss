@@ -1,0 +1,11 @@
+@use './server.scss' with (
+  $config: (
+    size: 24px,
+    light: (
+      base: (
+        background: #fff,
+        text: #000
+      )
+    )
+  )
+)

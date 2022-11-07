@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A webpage to display palettes.">
+    <title>Palettes</title>
+    <link rel="stylesheet" href="app.scss" />
+    <style>
+      .shades{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .shade{
+        width: calc(100% * (1/6));
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .palette{
+        padding: 2em;
+        margin: 2em 0;
+      }
+    </style>
+  </head>
+  <body id="app">
+
+    <header>
+      <h1>Itinerary</h1>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#" class="active">Contact</a>
+        <a href="#">Pricing</a>
+        <a href="#">Product</a>
+        <label class="inline">
+          <input type="checkbox" v-model="data.darkTheme">
+          <span>Dark Theme</span>
+        </label>
+      </nav>
+    </header>
+
+    <h1>{{ data.title }}</h1>
+    <div class="themes">
+      <div v-for="theme in data.themes"
+          :class="theme">
+        <h1>{{ theme }}</h1>
+        <div class="palettes">
+          <div v-for="palette in data.palettes"
+                class="palette"
+                :class="[palette, palette + '-4']">
+            <div class="box">
+              <header class="frost">
+
+              </header>
+              <h1>Hello.</h1>
+              <button>Default</button>
+              <button class="outline">Outline</button>
+              <button disabled>Disabled</button>
+            </div>
+            <div class="shades">
+              <div v-for="index in 24"
+                  :key="index"
+                  class="shade"
+                  :class="palette + '-' + index">
+                <!-- {{ palette }}-{{ index }} -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module">
+      import { createApp, reactive } from 'https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js'
+      createApp({
+        data: reactive({
+          theme: 'dark',
+          title: 'Hello. v2',
+          themes: [
+            'dark',
+            'light'
+          ],
+          palettes: [
+            'neutral',
+            'primary',
+            'accent',
+            'danger',
+            'warning',
+            'success'
+          ]
+        })
+      }).mount('#app')
+    </script>
+  </body>
+</html>

@@ -1,0 +1,3843 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A webpage to display palettes.">
+  <title>Palettes</title>
+  <style>
+    @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
+    @media (prefers-color-scheme: light) {
+      body:not(.dark) {
+        padding: 3em;
+        background: hsl(0deg, 0%, 100%);
+        color: #000;
+      }
+
+      body:not(.dark) a,
+      body:not(.dark) a:visited {
+        color: black;
+      }
+
+      body.dark {
+        padding: 3em;
+        background: hsl(0deg, 0%, 17.3913043478%);
+        color: #ddd;
+      }
+
+      body.dark a,
+      body.dark a:visited {
+        color: #88b0ff;
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:not(.light) {
+        padding: 3em;
+        background: hsl(0deg, 0%, 17.3913043478%);
+        color: #ddd;
+      }
+
+      body:not(.light) a,
+      body:not(.light) a:visited {
+        color: #88b0ff;
+      }
+
+      body.light {
+        padding: 3em;
+        background: hsl(0deg, 0%, 100%);
+        color: #000;
+      }
+
+      body.light a,
+      body.light a:visited {
+        color: black;
+      }
+    }
+
+    .dark .neutral .app {
+      padding: 3em;
+      background: hsl(0deg, 0%, 0%);
+      color: #ddd;
+    }
+
+    .dark .neutral button {
+      border-radius: 12px;
+      box-sizing: border-box;
+      clear: both;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 0.6em 0 0.6em 0;
+      padding: 0.6em 1.6em;
+      background: hsl(0deg, 0%, 21.7391304348%);
+      color: #ddd;
+      border: solid 2px #6a6a6a;
+    }
+
+    .dark .neutral button+button {
+      margin-left: 0.6em;
+    }
+
+    .dark .neutral button.outline {
+      background: transparent;
+    }
+
+    .dark .neutral button:hover:not(:disabled) {
+      background: hsl(0deg, 0%, 30.4347826087%);
+      color: #ddd;
+      border-color: #818181;
+    }
+
+    .dark .neutral button:active:not(:disabled) {
+      background: hsl(0deg, 0%, 26.0869565217%);
+      color: #ddd;
+      border-color: #767676;
+    }
+
+    .dark .neutral button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.4) contrast(50%) brightness(0.6);
+    }
+
+    .dark .neutral-1 {
+      background: hsl(0deg, 0%, 0%);
+      color: #ddd;
+    }
+
+    .dark .neutral-1.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #333333;
+      content: "neutral-1 / 0%";
+    }
+
+    .dark .neutral-2 {
+      background: hsl(0deg, 0%, 4.347826087%);
+      color: #ddd;
+    }
+
+    .dark .neutral-2.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3e3e3e;
+      content: "neutral-2 / 4%";
+    }
+
+    .dark .neutral-3 {
+      background: hsl(0deg, 0%, 8.6956521739%);
+      color: #ddd;
+    }
+
+    .dark .neutral-3.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #494949;
+      content: "neutral-3 / 9%";
+    }
+
+    .dark .neutral-4 {
+      background: hsl(0deg, 0%, 13.0434782609%);
+      color: #ddd;
+    }
+
+    .dark .neutral-4.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #545454;
+      content: "neutral-4 / 13%";
+    }
+
+    .dark .neutral-5 {
+      background: hsl(0deg, 0%, 17.3913043478%);
+      color: #ddd;
+    }
+
+    .dark .neutral-5.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5f5f5f;
+      content: "neutral-5 / 17%";
+    }
+
+    .dark .neutral-6 {
+      background: hsl(0deg, 0%, 21.7391304348%);
+      color: #ddd;
+    }
+
+    .dark .neutral-6.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #6a6a6a;
+      content: "neutral-6 / 22%";
+    }
+
+    .dark .neutral-7 {
+      background: hsl(0deg, 0%, 26.0869565217%);
+      color: #ddd;
+    }
+
+    .dark .neutral-7.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #767676;
+      content: "neutral-7 / 26%";
+    }
+
+    .dark .neutral-8 {
+      background: hsl(0deg, 0%, 30.4347826087%);
+      color: #ddd;
+    }
+
+    .dark .neutral-8.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #818181;
+      content: "neutral-8 / 30%";
+    }
+
+    .dark .neutral-9 {
+      background: hsl(0deg, 0%, 34.7826086957%);
+      color: #ddd;
+    }
+
+    .dark .neutral-9.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #8c8c8c;
+      content: "neutral-9 / 35%";
+    }
+
+    .dark .neutral-10 {
+      background: hsl(0deg, 0%, 39.1304347826%);
+      color: #ddd;
+    }
+
+    .dark .neutral-10.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #979797;
+      content: "neutral-10 / 39%";
+    }
+
+    .dark .neutral-11 {
+      background: hsl(0deg, 0%, 43.4782608696%);
+      color: #ddd;
+    }
+
+    .dark .neutral-11.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a2a2a2;
+      content: "neutral-11 / 43%";
+    }
+
+    .dark .neutral-12 {
+      background: hsl(0deg, 0%, 47.8260869565%);
+      color: #ddd;
+    }
+
+    .dark .neutral-12.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #adadad;
+      content: "neutral-12 / 48%";
+    }
+
+    .dark .neutral-13 {
+      background: hsl(0deg, 0%, 52.1739130435%);
+      color: #000;
+    }
+
+    .dark .neutral-13.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b8b8b8;
+      content: "neutral-13 / 52%";
+    }
+
+    .dark .neutral-14 {
+      background: hsl(0deg, 0%, 56.5217391304%);
+      color: #000;
+    }
+
+    .dark .neutral-14.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c3c3c3;
+      content: "neutral-14 / 57%";
+    }
+
+    .dark .neutral-15 {
+      background: hsl(0deg, 0%, 60.8695652174%);
+      color: #000;
+    }
+
+    .dark .neutral-15.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #686868;
+      content: "neutral-15 / 61%";
+    }
+
+    .dark .neutral-16 {
+      background: hsl(0deg, 0%, 65.2173913043%);
+      color: #000;
+    }
+
+    .dark .neutral-16.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #737373;
+      content: "neutral-16 / 65%";
+    }
+
+    .dark .neutral-17 {
+      background: hsl(0deg, 0%, 69.5652173913%);
+      color: #000;
+    }
+
+    .dark .neutral-17.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #7e7e7e;
+      content: "neutral-17 / 70%";
+    }
+
+    .dark .neutral-18 {
+      background: hsl(0deg, 0%, 73.9130434783%);
+      color: #000;
+    }
+
+    .dark .neutral-18.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #898989;
+      content: "neutral-18 / 74%";
+    }
+
+    .dark .neutral-19 {
+      background: hsl(0deg, 0%, 78.2608695652%);
+      color: #000;
+    }
+
+    .dark .neutral-19.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #959595;
+      content: "neutral-19 / 78%";
+    }
+
+    .dark .neutral-20 {
+      background: hsl(0deg, 0%, 82.6086956522%);
+      color: #000;
+    }
+
+    .dark .neutral-20.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a0a0a0;
+      content: "neutral-20 / 83%";
+    }
+
+    .dark .neutral-21 {
+      background: hsl(0deg, 0%, 86.9565217391%);
+      color: #000;
+    }
+
+    .dark .neutral-21.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #ababab;
+      content: "neutral-21 / 87%";
+    }
+
+    .dark .neutral-22 {
+      background: hsl(0deg, 0%, 91.3043478261%);
+      color: #000;
+    }
+
+    .dark .neutral-22.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b6b6b6;
+      content: "neutral-22 / 91%";
+    }
+
+    .dark .neutral-23 {
+      background: hsl(0deg, 0%, 95.652173913%);
+      color: #000;
+    }
+
+    .dark .neutral-23.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c1c1c1;
+      content: "neutral-23 / 96%";
+    }
+
+    .dark .neutral-24 {
+      background: hsl(0deg, 0%, 100%);
+      color: #000;
+    }
+
+    .dark .neutral-24.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cccccc;
+      content: "neutral-24 / 100%";
+    }
+
+    .dark .primary .app {
+      padding: 3em;
+      background: hsl(220deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .dark .primary button {
+      border-radius: 12px;
+      box-sizing: border-box;
+      clear: both;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 0.6em 0 0.6em 0;
+      padding: 0.6em 1.6em;
+      background: hsl(220deg, 50%, 21.7391304348%);
+      color: #ddd;
+      border: solid 2px #3559a0;
+    }
+
+    .dark .primary button+button {
+      margin-left: 0.6em;
+    }
+
+    .dark .primary button.outline {
+      background: transparent;
+    }
+
+    .dark .primary button:hover:not(:disabled) {
+      background: hsl(220deg, 50%, 30.4347826087%);
+      color: #ddd;
+      border-color: #416cc0;
+    }
+
+    .dark .primary button:active:not(:disabled) {
+      background: hsl(220deg, 50%, 26.0869565217%);
+      color: #ddd;
+      border-color: #3b62b0;
+    }
+
+    .dark .primary button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.4) contrast(50%) brightness(0.6);
+    }
+
+    .dark .primary-1 {
+      background: hsl(220deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .dark .primary-1.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #1a2b4d;
+      content: "primary-1 / 0%";
+    }
+
+    .dark .primary-2 {
+      background: hsl(220deg, 50%, 4.347826087%);
+      color: #ddd;
+    }
+
+    .dark .primary-2.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #1f345d;
+      content: "primary-2 / 4%";
+    }
+
+    .dark .primary-3 {
+      background: hsl(220deg, 50%, 8.6956521739%);
+      color: #ddd;
+    }
+
+    .dark .primary-3.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #253d6e;
+      content: "primary-3 / 9%";
+    }
+
+    .dark .primary-4 {
+      background: hsl(220deg, 50%, 13.0434782609%);
+      color: #ddd;
+    }
+
+    .dark .primary-4.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #2a467e;
+      content: "primary-4 / 13%";
+    }
+
+    .dark .primary-5 {
+      background: hsl(220deg, 50%, 17.3913043478%);
+      color: #ddd;
+    }
+
+    .dark .primary-5.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #304f8f;
+      content: "primary-5 / 17%";
+    }
+
+    .dark .primary-6 {
+      background: hsl(220deg, 50%, 21.7391304348%);
+      color: #ddd;
+    }
+
+    .dark .primary-6.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3559a0;
+      content: "primary-6 / 22%";
+    }
+
+    .dark .primary-7 {
+      background: hsl(220deg, 50%, 26.0869565217%);
+      color: #ddd;
+    }
+
+    .dark .primary-7.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3b62b0;
+      content: "primary-7 / 26%";
+    }
+
+    .dark .primary-8 {
+      background: hsl(220deg, 50%, 30.4347826087%);
+      color: #ddd;
+    }
+
+    .dark .primary-8.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #416cc0;
+      content: "primary-8 / 30%";
+    }
+
+    .dark .primary-9 {
+      background: hsl(220deg, 50%, 34.7826086957%);
+      color: #ddd;
+    }
+
+    .dark .primary-9.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5278c5;
+      content: "primary-9 / 35%";
+    }
+
+    .dark .primary-10 {
+      background: hsl(220deg, 50%, 39.1304347826%);
+      color: #ddd;
+    }
+
+    .dark .primary-10.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #6385cb;
+      content: "primary-10 / 39%";
+    }
+
+    .dark .primary-11 {
+      background: hsl(220deg, 50%, 43.4782608696%);
+      color: #ddd;
+    }
+
+    .dark .primary-11.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #7392d0;
+      content: "primary-11 / 43%";
+    }
+
+    .dark .primary-12 {
+      background: hsl(220deg, 50%, 47.8260869565%);
+      color: #ddd;
+    }
+
+    .dark .primary-12.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #849fd6;
+      content: "primary-12 / 48%";
+    }
+
+    .dark .primary-13 {
+      background: hsl(220deg, 50%, 52.1739130435%);
+      color: #000;
+    }
+
+    .dark .primary-13.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #95acdc;
+      content: "primary-13 / 52%";
+    }
+
+    .dark .primary-14 {
+      background: hsl(220deg, 50%, 56.5217391304%);
+      color: #000;
+    }
+
+    .dark .primary-14.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a5b9e1;
+      content: "primary-14 / 57%";
+    }
+
+    .dark .primary-15 {
+      background: hsl(220deg, 50%, 60.8695652174%);
+      color: #000;
+    }
+
+    .dark .primary-15.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #34579c;
+      content: "primary-15 / 61%";
+    }
+
+    .dark .primary-16 {
+      background: hsl(220deg, 50%, 65.2173913043%);
+      color: #000;
+    }
+
+    .dark .primary-16.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3a60ad;
+      content: "primary-16 / 65%";
+    }
+
+    .dark .primary-17 {
+      background: hsl(220deg, 50%, 69.5652173913%);
+      color: #000;
+    }
+
+    .dark .primary-17.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3f69be;
+      content: "primary-17 / 70%";
+    }
+
+    .dark .primary-18 {
+      background: hsl(220deg, 50%, 73.9130434783%);
+      color: #000;
+    }
+
+    .dark .primary-18.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #4f76c4;
+      content: "primary-18 / 74%";
+    }
+
+    .dark .primary-19 {
+      background: hsl(220deg, 50%, 78.2608695652%);
+      color: #000;
+    }
+
+    .dark .primary-19.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5f83ca;
+      content: "primary-19 / 78%";
+    }
+
+    .dark .primary-20 {
+      background: hsl(220deg, 50%, 82.6086956522%);
+      color: #000;
+    }
+
+    .dark .primary-20.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #7090cf;
+      content: "primary-20 / 83%";
+    }
+
+    .dark .primary-21 {
+      background: hsl(220deg, 50%, 86.9565217391%);
+      color: #000;
+    }
+
+    .dark .primary-21.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #819dd5;
+      content: "primary-21 / 87%";
+    }
+
+    .dark .primary-22 {
+      background: hsl(220deg, 50%, 91.3043478261%);
+      color: #000;
+    }
+
+    .dark .primary-22.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #91aada;
+      content: "primary-22 / 91%";
+    }
+
+    .dark .primary-23 {
+      background: hsl(220deg, 50%, 95.652173913%);
+      color: #000;
+    }
+
+    .dark .primary-23.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a2b7e0;
+      content: "primary-23 / 96%";
+    }
+
+    .dark .primary-24 {
+      background: hsl(220deg, 50%, 100%);
+      color: #000;
+    }
+
+    .dark .primary-24.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b3c4e6;
+      content: "primary-24 / 100%";
+    }
+
+    .dark .accent .app {
+      padding: 3em;
+      background: hsl(30deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .dark .accent button {
+      border-radius: 12px;
+      box-sizing: border-box;
+      clear: both;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 0.6em 0 0.6em 0;
+      padding: 0.6em 1.6em;
+      background: hsl(30deg, 50%, 21.7391304348%);
+      color: #ddd;
+      border: solid 2px #a06a35;
+    }
+
+    .dark .accent button+button {
+      margin-left: 0.6em;
+    }
+
+    .dark .accent button.outline {
+      background: transparent;
+    }
+
+    .dark .accent button:hover:not(:disabled) {
+      background: hsl(30deg, 50%, 30.4347826087%);
+      color: #ddd;
+      border-color: #c08141;
+    }
+
+    .dark .accent button:active:not(:disabled) {
+      background: hsl(30deg, 50%, 26.0869565217%);
+      color: #ddd;
+      border-color: #b0763b;
+    }
+
+    .dark .accent button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.4) contrast(50%) brightness(0.6);
+    }
+
+    .dark .accent-1 {
+      background: hsl(30deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .dark .accent-1.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #4d331a;
+      content: "accent-1 / 0%";
+    }
+
+    .dark .accent-2 {
+      background: hsl(30deg, 50%, 4.347826087%);
+      color: #ddd;
+    }
+
+    .dark .accent-2.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5d3e1f;
+      content: "accent-2 / 4%";
+    }
+
+    .dark .accent-3 {
+      background: hsl(30deg, 50%, 8.6956521739%);
+      color: #ddd;
+    }
+
+    .dark .accent-3.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #6e4925;
+      content: "accent-3 / 9%";
+    }
+
+    .dark .accent-4 {
+      background: hsl(30deg, 50%, 13.0434782609%);
+      color: #ddd;
+    }
+
+    .dark .accent-4.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #7e542a;
+      content: "accent-4 / 13%";
+    }
+
+    .dark .accent-5 {
+      background: hsl(30deg, 50%, 17.3913043478%);
+      color: #ddd;
+    }
+
+    .dark .accent-5.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #8f5f30;
+      content: "accent-5 / 17%";
+    }
+
+    .dark .accent-6 {
+      background: hsl(30deg, 50%, 21.7391304348%);
+      color: #ddd;
+    }
+
+    .dark .accent-6.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a06a35;
+      content: "accent-6 / 22%";
+    }
+
+    .dark .accent-7 {
+      background: hsl(30deg, 50%, 26.0869565217%);
+      color: #ddd;
+    }
+
+    .dark .accent-7.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b0763b;
+      content: "accent-7 / 26%";
+    }
+
+    .dark .accent-8 {
+      background: hsl(30deg, 50%, 30.4347826087%);
+      color: #ddd;
+    }
+
+    .dark .accent-8.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c08141;
+      content: "accent-8 / 30%";
+    }
+
+    .dark .accent-9 {
+      background: hsl(30deg, 50%, 34.7826086957%);
+      color: #ddd;
+    }
+
+    .dark .accent-9.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c58c52;
+      content: "accent-9 / 35%";
+    }
+
+    .dark .accent-10 {
+      background: hsl(30deg, 50%, 39.1304347826%);
+      color: #ddd;
+    }
+
+    .dark .accent-10.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cb9763;
+      content: "accent-10 / 39%";
+    }
+
+    .dark .accent-11 {
+      background: hsl(30deg, 50%, 43.4782608696%);
+      color: #ddd;
+    }
+
+    .dark .accent-11.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d0a273;
+      content: "accent-11 / 43%";
+    }
+
+    .dark .accent-12 {
+      background: hsl(30deg, 50%, 47.8260869565%);
+      color: #ddd;
+    }
+
+    .dark .accent-12.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d6ad84;
+      content: "accent-12 / 48%";
+    }
+
+    .dark .accent-13 {
+      background: hsl(30deg, 50%, 52.1739130435%);
+      color: #000;
+    }
+
+    .dark .accent-13.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #dcb895;
+      content: "accent-13 / 52%";
+    }
+
+    .dark .accent-14 {
+      background: hsl(30deg, 50%, 56.5217391304%);
+      color: #000;
+    }
+
+    .dark .accent-14.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e1c3a5;
+      content: "accent-14 / 57%";
+    }
+
+    .dark .accent-15 {
+      background: hsl(30deg, 50%, 60.8695652174%);
+      color: #000;
+    }
+
+    .dark .accent-15.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #9c6834;
+      content: "accent-15 / 61%";
+    }
+
+    .dark .accent-16 {
+      background: hsl(30deg, 50%, 65.2173913043%);
+      color: #000;
+    }
+
+    .dark .accent-16.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #ad733a;
+      content: "accent-16 / 65%";
+    }
+
+    .dark .accent-17 {
+      background: hsl(30deg, 50%, 69.5652173913%);
+      color: #000;
+    }
+
+    .dark .accent-17.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #be7e3f;
+      content: "accent-17 / 70%";
+    }
+
+    .dark .accent-18 {
+      background: hsl(30deg, 50%, 73.9130434783%);
+      color: #000;
+    }
+
+    .dark .accent-18.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c4894f;
+      content: "accent-18 / 74%";
+    }
+
+    .dark .accent-19 {
+      background: hsl(30deg, 50%, 78.2608695652%);
+      color: #000;
+    }
+
+    .dark .accent-19.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #ca955f;
+      content: "accent-19 / 78%";
+    }
+
+    .dark .accent-20 {
+      background: hsl(30deg, 50%, 82.6086956522%);
+      color: #000;
+    }
+
+    .dark .accent-20.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cfa070;
+      content: "accent-20 / 83%";
+    }
+
+    .dark .accent-21 {
+      background: hsl(30deg, 50%, 86.9565217391%);
+      color: #000;
+    }
+
+    .dark .accent-21.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d5ab81;
+      content: "accent-21 / 87%";
+    }
+
+    .dark .accent-22 {
+      background: hsl(30deg, 50%, 91.3043478261%);
+      color: #000;
+    }
+
+    .dark .accent-22.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #dab691;
+      content: "accent-22 / 91%";
+    }
+
+    .dark .accent-23 {
+      background: hsl(30deg, 50%, 95.652173913%);
+      color: #000;
+    }
+
+    .dark .accent-23.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e0c1a2;
+      content: "accent-23 / 96%";
+    }
+
+    .dark .accent-24 {
+      background: hsl(30deg, 50%, 100%);
+      color: #000;
+    }
+
+    .dark .accent-24.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e6ccb3;
+      content: "accent-24 / 100%";
+    }
+
+    .dark .danger .app {
+      padding: 3em;
+      background: hsl(0deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .dark .danger button {
+      border-radius: 12px;
+      box-sizing: border-box;
+      clear: both;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 0.6em 0 0.6em 0;
+      padding: 0.6em 1.6em;
+      background: hsl(0deg, 50%, 21.7391304348%);
+      color: #ddd;
+      border: solid 2px #a03535;
+    }
+
+    .dark .danger button+button {
+      margin-left: 0.6em;
+    }
+
+    .dark .danger button.outline {
+      background: transparent;
+    }
+
+    .dark .danger button:hover:not(:disabled) {
+      background: hsl(0deg, 50%, 30.4347826087%);
+      color: #ddd;
+      border-color: #c04141;
+    }
+
+    .dark .danger button:active:not(:disabled) {
+      background: hsl(0deg, 50%, 26.0869565217%);
+      color: #ddd;
+      border-color: #b03b3b;
+    }
+
+    .dark .danger button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.4) contrast(50%) brightness(0.6);
+    }
+
+    .dark .danger-1 {
+      background: hsl(0deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .dark .danger-1.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #4d1a1a;
+      content: "danger-1 / 0%";
+    }
+
+    .dark .danger-2 {
+      background: hsl(0deg, 50%, 4.347826087%);
+      color: #ddd;
+    }
+
+    .dark .danger-2.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5d1f1f;
+      content: "danger-2 / 4%";
+    }
+
+    .dark .danger-3 {
+      background: hsl(0deg, 50%, 8.6956521739%);
+      color: #ddd;
+    }
+
+    .dark .danger-3.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #6e2525;
+      content: "danger-3 / 9%";
+    }
+
+    .dark .danger-4 {
+      background: hsl(0deg, 50%, 13.0434782609%);
+      color: #ddd;
+    }
+
+    .dark .danger-4.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #7e2a2a;
+      content: "danger-4 / 13%";
+    }
+
+    .dark .danger-5 {
+      background: hsl(0deg, 50%, 17.3913043478%);
+      color: #ddd;
+    }
+
+    .dark .danger-5.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #8f3030;
+      content: "danger-5 / 17%";
+    }
+
+    .dark .danger-6 {
+      background: hsl(0deg, 50%, 21.7391304348%);
+      color: #ddd;
+    }
+
+    .dark .danger-6.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a03535;
+      content: "danger-6 / 22%";
+    }
+
+    .dark .danger-7 {
+      background: hsl(0deg, 50%, 26.0869565217%);
+      color: #ddd;
+    }
+
+    .dark .danger-7.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b03b3b;
+      content: "danger-7 / 26%";
+    }
+
+    .dark .danger-8 {
+      background: hsl(0deg, 50%, 30.4347826087%);
+      color: #ddd;
+    }
+
+    .dark .danger-8.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c04141;
+      content: "danger-8 / 30%";
+    }
+
+    .dark .danger-9 {
+      background: hsl(0deg, 50%, 34.7826086957%);
+      color: #ddd;
+    }
+
+    .dark .danger-9.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c55252;
+      content: "danger-9 / 35%";
+    }
+
+    .dark .danger-10 {
+      background: hsl(0deg, 50%, 39.1304347826%);
+      color: #ddd;
+    }
+
+    .dark .danger-10.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cb6363;
+      content: "danger-10 / 39%";
+    }
+
+    .dark .danger-11 {
+      background: hsl(0deg, 50%, 43.4782608696%);
+      color: #ddd;
+    }
+
+    .dark .danger-11.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d07373;
+      content: "danger-11 / 43%";
+    }
+
+    .dark .danger-12 {
+      background: hsl(0deg, 50%, 47.8260869565%);
+      color: #ddd;
+    }
+
+    .dark .danger-12.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d68484;
+      content: "danger-12 / 48%";
+    }
+
+    .dark .danger-13 {
+      background: hsl(0deg, 50%, 52.1739130435%);
+      color: #000;
+    }
+
+    .dark .danger-13.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #dc9595;
+      content: "danger-13 / 52%";
+    }
+
+    .dark .danger-14 {
+      background: hsl(0deg, 50%, 56.5217391304%);
+      color: #000;
+    }
+
+    .dark .danger-14.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e1a5a5;
+      content: "danger-14 / 57%";
+    }
+
+    .dark .danger-15 {
+      background: hsl(0deg, 50%, 60.8695652174%);
+      color: #000;
+    }
+
+    .dark .danger-15.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #9c3434;
+      content: "danger-15 / 61%";
+    }
+
+    .dark .danger-16 {
+      background: hsl(0deg, 50%, 65.2173913043%);
+      color: #000;
+    }
+
+    .dark .danger-16.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #ad3a3a;
+      content: "danger-16 / 65%";
+    }
+
+    .dark .danger-17 {
+      background: hsl(0deg, 50%, 69.5652173913%);
+      color: #000;
+    }
+
+    .dark .danger-17.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #be3f3f;
+      content: "danger-17 / 70%";
+    }
+
+    .dark .danger-18 {
+      background: hsl(0deg, 50%, 73.9130434783%);
+      color: #000;
+    }
+
+    .dark .danger-18.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c44f4f;
+      content: "danger-18 / 74%";
+    }
+
+    .dark .danger-19 {
+      background: hsl(0deg, 50%, 78.2608695652%);
+      color: #000;
+    }
+
+    .dark .danger-19.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #ca5f5f;
+      content: "danger-19 / 78%";
+    }
+
+    .dark .danger-20 {
+      background: hsl(0deg, 50%, 82.6086956522%);
+      color: #000;
+    }
+
+    .dark .danger-20.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cf7070;
+      content: "danger-20 / 83%";
+    }
+
+    .dark .danger-21 {
+      background: hsl(0deg, 50%, 86.9565217391%);
+      color: #000;
+    }
+
+    .dark .danger-21.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d58181;
+      content: "danger-21 / 87%";
+    }
+
+    .dark .danger-22 {
+      background: hsl(0deg, 50%, 91.3043478261%);
+      color: #000;
+    }
+
+    .dark .danger-22.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #da9191;
+      content: "danger-22 / 91%";
+    }
+
+    .dark .danger-23 {
+      background: hsl(0deg, 50%, 95.652173913%);
+      color: #000;
+    }
+
+    .dark .danger-23.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e0a2a2;
+      content: "danger-23 / 96%";
+    }
+
+    .dark .danger-24 {
+      background: hsl(0deg, 50%, 100%);
+      color: #000;
+    }
+
+    .dark .danger-24.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e6b3b3;
+      content: "danger-24 / 100%";
+    }
+
+    .dark .warning .app {
+      padding: 3em;
+      background: hsl(40deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .dark .warning button {
+      border-radius: 12px;
+      box-sizing: border-box;
+      clear: both;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 0.6em 0 0.6em 0;
+      padding: 0.6em 1.6em;
+      background: hsl(40deg, 50%, 21.7391304348%);
+      color: #ddd;
+      border: solid 2px #a07c35;
+    }
+
+    .dark .warning button+button {
+      margin-left: 0.6em;
+    }
+
+    .dark .warning button.outline {
+      background: transparent;
+    }
+
+    .dark .warning button:hover:not(:disabled) {
+      background: hsl(40deg, 50%, 30.4347826087%);
+      color: #ddd;
+      border-color: #c09641;
+    }
+
+    .dark .warning button:active:not(:disabled) {
+      background: hsl(40deg, 50%, 26.0869565217%);
+      color: #ddd;
+      border-color: #b0893b;
+    }
+
+    .dark .warning button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.4) contrast(50%) brightness(0.6);
+    }
+
+    .dark .warning-1 {
+      background: hsl(40deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .dark .warning-1.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #4d3c1a;
+      content: "warning-1 / 0%";
+    }
+
+    .dark .warning-2 {
+      background: hsl(40deg, 50%, 4.347826087%);
+      color: #ddd;
+    }
+
+    .dark .warning-2.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5d481f;
+      content: "warning-2 / 4%";
+    }
+
+    .dark .warning-3 {
+      background: hsl(40deg, 50%, 8.6956521739%);
+      color: #ddd;
+    }
+
+    .dark .warning-3.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #6e5525;
+      content: "warning-3 / 9%";
+    }
+
+    .dark .warning-4 {
+      background: hsl(40deg, 50%, 13.0434782609%);
+      color: #ddd;
+    }
+
+    .dark .warning-4.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #7e622a;
+      content: "warning-4 / 13%";
+    }
+
+    .dark .warning-5 {
+      background: hsl(40deg, 50%, 17.3913043478%);
+      color: #ddd;
+    }
+
+    .dark .warning-5.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #8f6f30;
+      content: "warning-5 / 17%";
+    }
+
+    .dark .warning-6 {
+      background: hsl(40deg, 50%, 21.7391304348%);
+      color: #ddd;
+    }
+
+    .dark .warning-6.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a07c35;
+      content: "warning-6 / 22%";
+    }
+
+    .dark .warning-7 {
+      background: hsl(40deg, 50%, 26.0869565217%);
+      color: #ddd;
+    }
+
+    .dark .warning-7.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b0893b;
+      content: "warning-7 / 26%";
+    }
+
+    .dark .warning-8 {
+      background: hsl(40deg, 50%, 30.4347826087%);
+      color: #ddd;
+    }
+
+    .dark .warning-8.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c09641;
+      content: "warning-8 / 30%";
+    }
+
+    .dark .warning-9 {
+      background: hsl(40deg, 50%, 34.7826086957%);
+      color: #ddd;
+    }
+
+    .dark .warning-9.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c59f52;
+      content: "warning-9 / 35%";
+    }
+
+    .dark .warning-10 {
+      background: hsl(40deg, 50%, 39.1304347826%);
+      color: #ddd;
+    }
+
+    .dark .warning-10.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cba863;
+      content: "warning-10 / 39%";
+    }
+
+    .dark .warning-11 {
+      background: hsl(40deg, 50%, 43.4782608696%);
+      color: #ddd;
+    }
+
+    .dark .warning-11.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d0b173;
+      content: "warning-11 / 43%";
+    }
+
+    .dark .warning-12 {
+      background: hsl(40deg, 50%, 47.8260869565%);
+      color: #ddd;
+    }
+
+    .dark .warning-12.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d6bb84;
+      content: "warning-12 / 48%";
+    }
+
+    .dark .warning-13 {
+      background: hsl(40deg, 50%, 52.1739130435%);
+      color: #000;
+    }
+
+    .dark .warning-13.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #dcc495;
+      content: "warning-13 / 52%";
+    }
+
+    .dark .warning-14 {
+      background: hsl(40deg, 50%, 56.5217391304%);
+      color: #000;
+    }
+
+    .dark .warning-14.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e1cda5;
+      content: "warning-14 / 57%";
+    }
+
+    .dark .warning-15 {
+      background: hsl(40deg, 50%, 60.8695652174%);
+      color: #000;
+    }
+
+    .dark .warning-15.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #9c7a34;
+      content: "warning-15 / 61%";
+    }
+
+    .dark .warning-16 {
+      background: hsl(40deg, 50%, 65.2173913043%);
+      color: #000;
+    }
+
+    .dark .warning-16.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #ad873a;
+      content: "warning-16 / 65%";
+    }
+
+    .dark .warning-17 {
+      background: hsl(40deg, 50%, 69.5652173913%);
+      color: #000;
+    }
+
+    .dark .warning-17.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #be933f;
+      content: "warning-17 / 70%";
+    }
+
+    .dark .warning-18 {
+      background: hsl(40deg, 50%, 73.9130434783%);
+      color: #000;
+    }
+
+    .dark .warning-18.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c49d4f;
+      content: "warning-18 / 74%";
+    }
+
+    .dark .warning-19 {
+      background: hsl(40deg, 50%, 78.2608695652%);
+      color: #000;
+    }
+
+    .dark .warning-19.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #caa65f;
+      content: "warning-19 / 78%";
+    }
+
+    .dark .warning-20 {
+      background: hsl(40deg, 50%, 82.6086956522%);
+      color: #000;
+    }
+
+    .dark .warning-20.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cfb070;
+      content: "warning-20 / 83%";
+    }
+
+    .dark .warning-21 {
+      background: hsl(40deg, 50%, 86.9565217391%);
+      color: #000;
+    }
+
+    .dark .warning-21.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d5b981;
+      content: "warning-21 / 87%";
+    }
+
+    .dark .warning-22 {
+      background: hsl(40deg, 50%, 91.3043478261%);
+      color: #000;
+    }
+
+    .dark .warning-22.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #dac291;
+      content: "warning-22 / 91%";
+    }
+
+    .dark .warning-23 {
+      background: hsl(40deg, 50%, 95.652173913%);
+      color: #000;
+    }
+
+    .dark .warning-23.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e0cba2;
+      content: "warning-23 / 96%";
+    }
+
+    .dark .warning-24 {
+      background: hsl(40deg, 50%, 100%);
+      color: #000;
+    }
+
+    .dark .warning-24.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e6d5b3;
+      content: "warning-24 / 100%";
+    }
+
+    .dark .success .app {
+      padding: 3em;
+      background: hsl(120deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .dark .success button {
+      border-radius: 12px;
+      box-sizing: border-box;
+      clear: both;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 0.6em 0 0.6em 0;
+      padding: 0.6em 1.6em;
+      background: hsl(120deg, 50%, 21.7391304348%);
+      color: #ddd;
+      border: solid 2px #35a035;
+    }
+
+    .dark .success button+button {
+      margin-left: 0.6em;
+    }
+
+    .dark .success button.outline {
+      background: transparent;
+    }
+
+    .dark .success button:hover:not(:disabled) {
+      background: hsl(120deg, 50%, 30.4347826087%);
+      color: #ddd;
+      border-color: #41c041;
+    }
+
+    .dark .success button:active:not(:disabled) {
+      background: hsl(120deg, 50%, 26.0869565217%);
+      color: #ddd;
+      border-color: #3bb03b;
+    }
+
+    .dark .success button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.4) contrast(50%) brightness(0.6);
+    }
+
+    .dark .success-1 {
+      background: hsl(120deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .dark .success-1.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #1a4d1a;
+      content: "success-1 / 0%";
+    }
+
+    .dark .success-2 {
+      background: hsl(120deg, 50%, 4.347826087%);
+      color: #ddd;
+    }
+
+    .dark .success-2.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #1f5d1f;
+      content: "success-2 / 4%";
+    }
+
+    .dark .success-3 {
+      background: hsl(120deg, 50%, 8.6956521739%);
+      color: #ddd;
+    }
+
+    .dark .success-3.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #256e25;
+      content: "success-3 / 9%";
+    }
+
+    .dark .success-4 {
+      background: hsl(120deg, 50%, 13.0434782609%);
+      color: #ddd;
+    }
+
+    .dark .success-4.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #2a7e2a;
+      content: "success-4 / 13%";
+    }
+
+    .dark .success-5 {
+      background: hsl(120deg, 50%, 17.3913043478%);
+      color: #ddd;
+    }
+
+    .dark .success-5.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #308f30;
+      content: "success-5 / 17%";
+    }
+
+    .dark .success-6 {
+      background: hsl(120deg, 50%, 21.7391304348%);
+      color: #ddd;
+    }
+
+    .dark .success-6.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #35a035;
+      content: "success-6 / 22%";
+    }
+
+    .dark .success-7 {
+      background: hsl(120deg, 50%, 26.0869565217%);
+      color: #ddd;
+    }
+
+    .dark .success-7.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3bb03b;
+      content: "success-7 / 26%";
+    }
+
+    .dark .success-8 {
+      background: hsl(120deg, 50%, 30.4347826087%);
+      color: #ddd;
+    }
+
+    .dark .success-8.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #41c041;
+      content: "success-8 / 30%";
+    }
+
+    .dark .success-9 {
+      background: hsl(120deg, 50%, 34.7826086957%);
+      color: #ddd;
+    }
+
+    .dark .success-9.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #52c552;
+      content: "success-9 / 35%";
+    }
+
+    .dark .success-10 {
+      background: hsl(120deg, 50%, 39.1304347826%);
+      color: #ddd;
+    }
+
+    .dark .success-10.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #63cb63;
+      content: "success-10 / 39%";
+    }
+
+    .dark .success-11 {
+      background: hsl(120deg, 50%, 43.4782608696%);
+      color: #ddd;
+    }
+
+    .dark .success-11.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #73d073;
+      content: "success-11 / 43%";
+    }
+
+    .dark .success-12 {
+      background: hsl(120deg, 50%, 47.8260869565%);
+      color: #ddd;
+    }
+
+    .dark .success-12.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #84d684;
+      content: "success-12 / 48%";
+    }
+
+    .dark .success-13 {
+      background: hsl(120deg, 50%, 52.1739130435%);
+      color: #000;
+    }
+
+    .dark .success-13.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #95dc95;
+      content: "success-13 / 52%";
+    }
+
+    .dark .success-14 {
+      background: hsl(120deg, 50%, 56.5217391304%);
+      color: #000;
+    }
+
+    .dark .success-14.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a5e1a5;
+      content: "success-14 / 57%";
+    }
+
+    .dark .success-15 {
+      background: hsl(120deg, 50%, 60.8695652174%);
+      color: #000;
+    }
+
+    .dark .success-15.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #349c34;
+      content: "success-15 / 61%";
+    }
+
+    .dark .success-16 {
+      background: hsl(120deg, 50%, 65.2173913043%);
+      color: #000;
+    }
+
+    .dark .success-16.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3aad3a;
+      content: "success-16 / 65%";
+    }
+
+    .dark .success-17 {
+      background: hsl(120deg, 50%, 69.5652173913%);
+      color: #000;
+    }
+
+    .dark .success-17.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3fbe3f;
+      content: "success-17 / 70%";
+    }
+
+    .dark .success-18 {
+      background: hsl(120deg, 50%, 73.9130434783%);
+      color: #000;
+    }
+
+    .dark .success-18.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #4fc44f;
+      content: "success-18 / 74%";
+    }
+
+    .dark .success-19 {
+      background: hsl(120deg, 50%, 78.2608695652%);
+      color: #000;
+    }
+
+    .dark .success-19.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5fca5f;
+      content: "success-19 / 78%";
+    }
+
+    .dark .success-20 {
+      background: hsl(120deg, 50%, 82.6086956522%);
+      color: #000;
+    }
+
+    .dark .success-20.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #70cf70;
+      content: "success-20 / 83%";
+    }
+
+    .dark .success-21 {
+      background: hsl(120deg, 50%, 86.9565217391%);
+      color: #000;
+    }
+
+    .dark .success-21.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #81d581;
+      content: "success-21 / 87%";
+    }
+
+    .dark .success-22 {
+      background: hsl(120deg, 50%, 91.3043478261%);
+      color: #000;
+    }
+
+    .dark .success-22.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #91da91;
+      content: "success-22 / 91%";
+    }
+
+    .dark .success-23 {
+      background: hsl(120deg, 50%, 95.652173913%);
+      color: #000;
+    }
+
+    .dark .success-23.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a2e0a2;
+      content: "success-23 / 96%";
+    }
+
+    .dark .success-24 {
+      background: hsl(120deg, 50%, 100%);
+      color: #000;
+    }
+
+    .dark .success-24.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b3e6b3;
+      content: "success-24 / 100%";
+    }
+
+    .light .neutral .app {
+      padding: 3em;
+      background: hsl(0deg, 0%, 100%);
+      color: #000;
+    }
+
+    .light .neutral button {
+      border-radius: 12px;
+      box-sizing: border-box;
+      clear: both;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 0.6em 0 0.6em 0;
+      padding: 0.6em 1.6em;
+      background: hsl(0deg, 0%, 78.2608695652%);
+      color: #000;
+      border: solid 2px #959595;
+    }
+
+    .light .neutral button+button {
+      margin-left: 0.6em;
+    }
+
+    .light .neutral button.outline {
+      background: transparent;
+    }
+
+    .light .neutral button:hover:not(:disabled) {
+      background: hsl(0deg, 0%, 69.5652173913%);
+      color: #000;
+      border-color: #7e7e7e;
+    }
+
+    .light .neutral button:active:not(:disabled) {
+      background: hsl(0deg, 0%, 73.9130434783%);
+      color: #000;
+      border-color: #898989;
+    }
+
+    .light .neutral button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.8) contrast(30%) brightness(1.6);
+    }
+
+    .light .neutral-1 {
+      background: hsl(0deg, 0%, 100%);
+      color: #000;
+    }
+
+    .light .neutral-1.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cccccc;
+      content: "neutral-1 / 100%";
+    }
+
+    .light .neutral-2 {
+      background: hsl(0deg, 0%, 95.652173913%);
+      color: #000;
+    }
+
+    .light .neutral-2.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c1c1c1;
+      content: "neutral-2 / 96%";
+    }
+
+    .light .neutral-3 {
+      background: hsl(0deg, 0%, 91.3043478261%);
+      color: #000;
+    }
+
+    .light .neutral-3.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b6b6b6;
+      content: "neutral-3 / 91%";
+    }
+
+    .light .neutral-4 {
+      background: hsl(0deg, 0%, 86.9565217391%);
+      color: #000;
+    }
+
+    .light .neutral-4.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #ababab;
+      content: "neutral-4 / 87%";
+    }
+
+    .light .neutral-5 {
+      background: hsl(0deg, 0%, 82.6086956522%);
+      color: #000;
+    }
+
+    .light .neutral-5.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a0a0a0;
+      content: "neutral-5 / 83%";
+    }
+
+    .light .neutral-6 {
+      background: hsl(0deg, 0%, 78.2608695652%);
+      color: #000;
+    }
+
+    .light .neutral-6.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #959595;
+      content: "neutral-6 / 78%";
+    }
+
+    .light .neutral-7 {
+      background: hsl(0deg, 0%, 73.9130434783%);
+      color: #000;
+    }
+
+    .light .neutral-7.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #898989;
+      content: "neutral-7 / 74%";
+    }
+
+    .light .neutral-8 {
+      background: hsl(0deg, 0%, 69.5652173913%);
+      color: #000;
+    }
+
+    .light .neutral-8.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #7e7e7e;
+      content: "neutral-8 / 70%";
+    }
+
+    .light .neutral-9 {
+      background: hsl(0deg, 0%, 65.2173913043%);
+      color: #000;
+    }
+
+    .light .neutral-9.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #737373;
+      content: "neutral-9 / 65%";
+    }
+
+    .light .neutral-10 {
+      background: hsl(0deg, 0%, 60.8695652174%);
+      color: #000;
+    }
+
+    .light .neutral-10.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #686868;
+      content: "neutral-10 / 61%";
+    }
+
+    .light .neutral-11 {
+      background: hsl(0deg, 0%, 56.5217391304%);
+      color: #000;
+    }
+
+    .light .neutral-11.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c3c3c3;
+      content: "neutral-11 / 57%";
+    }
+
+    .light .neutral-12 {
+      background: hsl(0deg, 0%, 52.1739130435%);
+      color: #000;
+    }
+
+    .light .neutral-12.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b8b8b8;
+      content: "neutral-12 / 52%";
+    }
+
+    .light .neutral-13 {
+      background: hsl(0deg, 0%, 47.8260869565%);
+      color: #ddd;
+    }
+
+    .light .neutral-13.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #adadad;
+      content: "neutral-13 / 48%";
+    }
+
+    .light .neutral-14 {
+      background: hsl(0deg, 0%, 43.4782608696%);
+      color: #ddd;
+    }
+
+    .light .neutral-14.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a2a2a2;
+      content: "neutral-14 / 43%";
+    }
+
+    .light .neutral-15 {
+      background: hsl(0deg, 0%, 39.1304347826%);
+      color: #ddd;
+    }
+
+    .light .neutral-15.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #979797;
+      content: "neutral-15 / 39%";
+    }
+
+    .light .neutral-16 {
+      background: hsl(0deg, 0%, 34.7826086957%);
+      color: #ddd;
+    }
+
+    .light .neutral-16.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #8c8c8c;
+      content: "neutral-16 / 35%";
+    }
+
+    .light .neutral-17 {
+      background: hsl(0deg, 0%, 30.4347826087%);
+      color: #ddd;
+    }
+
+    .light .neutral-17.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #818181;
+      content: "neutral-17 / 30%";
+    }
+
+    .light .neutral-18 {
+      background: hsl(0deg, 0%, 26.0869565217%);
+      color: #ddd;
+    }
+
+    .light .neutral-18.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #767676;
+      content: "neutral-18 / 26%";
+    }
+
+    .light .neutral-19 {
+      background: hsl(0deg, 0%, 21.7391304348%);
+      color: #ddd;
+    }
+
+    .light .neutral-19.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #6a6a6a;
+      content: "neutral-19 / 22%";
+    }
+
+    .light .neutral-20 {
+      background: hsl(0deg, 0%, 17.3913043478%);
+      color: #ddd;
+    }
+
+    .light .neutral-20.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5f5f5f;
+      content: "neutral-20 / 17%";
+    }
+
+    .light .neutral-21 {
+      background: hsl(0deg, 0%, 13.0434782609%);
+      color: #ddd;
+    }
+
+    .light .neutral-21.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #545454;
+      content: "neutral-21 / 13%";
+    }
+
+    .light .neutral-22 {
+      background: hsl(0deg, 0%, 8.6956521739%);
+      color: #ddd;
+    }
+
+    .light .neutral-22.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #494949;
+      content: "neutral-22 / 9%";
+    }
+
+    .light .neutral-23 {
+      background: hsl(0deg, 0%, 4.347826087%);
+      color: #ddd;
+    }
+
+    .light .neutral-23.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3e3e3e;
+      content: "neutral-23 / 4%";
+    }
+
+    .light .neutral-24 {
+      background: hsl(0deg, 0%, 0%);
+      color: #ddd;
+    }
+
+    .light .neutral-24.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #333333;
+      content: "neutral-24 / 0%";
+    }
+
+    .light .primary .app {
+      padding: 3em;
+      background: hsl(220deg, 50%, 100%);
+      color: #000;
+    }
+
+    .light .primary button {
+      border-radius: 12px;
+      box-sizing: border-box;
+      clear: both;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 0.6em 0 0.6em 0;
+      padding: 0.6em 1.6em;
+      background: hsl(220deg, 50%, 78.2608695652%);
+      color: #000;
+      border: solid 2px #5f83ca;
+    }
+
+    .light .primary button+button {
+      margin-left: 0.6em;
+    }
+
+    .light .primary button.outline {
+      background: transparent;
+    }
+
+    .light .primary button:hover:not(:disabled) {
+      background: hsl(220deg, 50%, 69.5652173913%);
+      color: #000;
+      border-color: #3f69be;
+    }
+
+    .light .primary button:active:not(:disabled) {
+      background: hsl(220deg, 50%, 73.9130434783%);
+      color: #000;
+      border-color: #4f76c4;
+    }
+
+    .light .primary button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.8) contrast(30%) brightness(1.6);
+    }
+
+    .light .primary-1 {
+      background: hsl(220deg, 50%, 100%);
+      color: #000;
+    }
+
+    .light .primary-1.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b3c4e6;
+      content: "primary-1 / 100%";
+    }
+
+    .light .primary-2 {
+      background: hsl(220deg, 50%, 95.652173913%);
+      color: #000;
+    }
+
+    .light .primary-2.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a2b7e0;
+      content: "primary-2 / 96%";
+    }
+
+    .light .primary-3 {
+      background: hsl(220deg, 50%, 91.3043478261%);
+      color: #000;
+    }
+
+    .light .primary-3.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #91aada;
+      content: "primary-3 / 91%";
+    }
+
+    .light .primary-4 {
+      background: hsl(220deg, 50%, 86.9565217391%);
+      color: #000;
+    }
+
+    .light .primary-4.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #819dd5;
+      content: "primary-4 / 87%";
+    }
+
+    .light .primary-5 {
+      background: hsl(220deg, 50%, 82.6086956522%);
+      color: #000;
+    }
+
+    .light .primary-5.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #7090cf;
+      content: "primary-5 / 83%";
+    }
+
+    .light .primary-6 {
+      background: hsl(220deg, 50%, 78.2608695652%);
+      color: #000;
+    }
+
+    .light .primary-6.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5f83ca;
+      content: "primary-6 / 78%";
+    }
+
+    .light .primary-7 {
+      background: hsl(220deg, 50%, 73.9130434783%);
+      color: #000;
+    }
+
+    .light .primary-7.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #4f76c4;
+      content: "primary-7 / 74%";
+    }
+
+    .light .primary-8 {
+      background: hsl(220deg, 50%, 69.5652173913%);
+      color: #000;
+    }
+
+    .light .primary-8.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3f69be;
+      content: "primary-8 / 70%";
+    }
+
+    .light .primary-9 {
+      background: hsl(220deg, 50%, 65.2173913043%);
+      color: #000;
+    }
+
+    .light .primary-9.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3a60ad;
+      content: "primary-9 / 65%";
+    }
+
+    .light .primary-10 {
+      background: hsl(220deg, 50%, 60.8695652174%);
+      color: #000;
+    }
+
+    .light .primary-10.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #34579c;
+      content: "primary-10 / 61%";
+    }
+
+    .light .primary-11 {
+      background: hsl(220deg, 50%, 56.5217391304%);
+      color: #000;
+    }
+
+    .light .primary-11.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a5b9e1;
+      content: "primary-11 / 57%";
+    }
+
+    .light .primary-12 {
+      background: hsl(220deg, 50%, 52.1739130435%);
+      color: #000;
+    }
+
+    .light .primary-12.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #95acdc;
+      content: "primary-12 / 52%";
+    }
+
+    .light .primary-13 {
+      background: hsl(220deg, 50%, 47.8260869565%);
+      color: #ddd;
+    }
+
+    .light .primary-13.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #849fd6;
+      content: "primary-13 / 48%";
+    }
+
+    .light .primary-14 {
+      background: hsl(220deg, 50%, 43.4782608696%);
+      color: #ddd;
+    }
+
+    .light .primary-14.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #7392d0;
+      content: "primary-14 / 43%";
+    }
+
+    .light .primary-15 {
+      background: hsl(220deg, 50%, 39.1304347826%);
+      color: #ddd;
+    }
+
+    .light .primary-15.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #6385cb;
+      content: "primary-15 / 39%";
+    }
+
+    .light .primary-16 {
+      background: hsl(220deg, 50%, 34.7826086957%);
+      color: #ddd;
+    }
+
+    .light .primary-16.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5278c5;
+      content: "primary-16 / 35%";
+    }
+
+    .light .primary-17 {
+      background: hsl(220deg, 50%, 30.4347826087%);
+      color: #ddd;
+    }
+
+    .light .primary-17.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #416cc0;
+      content: "primary-17 / 30%";
+    }
+
+    .light .primary-18 {
+      background: hsl(220deg, 50%, 26.0869565217%);
+      color: #ddd;
+    }
+
+    .light .primary-18.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3b62b0;
+      content: "primary-18 / 26%";
+    }
+
+    .light .primary-19 {
+      background: hsl(220deg, 50%, 21.7391304348%);
+      color: #ddd;
+    }
+
+    .light .primary-19.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3559a0;
+      content: "primary-19 / 22%";
+    }
+
+    .light .primary-20 {
+      background: hsl(220deg, 50%, 17.3913043478%);
+      color: #ddd;
+    }
+
+    .light .primary-20.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #304f8f;
+      content: "primary-20 / 17%";
+    }
+
+    .light .primary-21 {
+      background: hsl(220deg, 50%, 13.0434782609%);
+      color: #ddd;
+    }
+
+    .light .primary-21.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #2a467e;
+      content: "primary-21 / 13%";
+    }
+
+    .light .primary-22 {
+      background: hsl(220deg, 50%, 8.6956521739%);
+      color: #ddd;
+    }
+
+    .light .primary-22.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #253d6e;
+      content: "primary-22 / 9%";
+    }
+
+    .light .primary-23 {
+      background: hsl(220deg, 50%, 4.347826087%);
+      color: #ddd;
+    }
+
+    .light .primary-23.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #1f345d;
+      content: "primary-23 / 4%";
+    }
+
+    .light .primary-24 {
+      background: hsl(220deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .light .primary-24.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #1a2b4d;
+      content: "primary-24 / 0%";
+    }
+
+    .light .accent .app {
+      padding: 3em;
+      background: hsl(30deg, 50%, 100%);
+      color: #000;
+    }
+
+    .light .accent button {
+      border-radius: 12px;
+      box-sizing: border-box;
+      clear: both;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 0.6em 0 0.6em 0;
+      padding: 0.6em 1.6em;
+      background: hsl(30deg, 50%, 78.2608695652%);
+      color: #000;
+      border: solid 2px #ca955f;
+    }
+
+    .light .accent button+button {
+      margin-left: 0.6em;
+    }
+
+    .light .accent button.outline {
+      background: transparent;
+    }
+
+    .light .accent button:hover:not(:disabled) {
+      background: hsl(30deg, 50%, 69.5652173913%);
+      color: #000;
+      border-color: #be7e3f;
+    }
+
+    .light .accent button:active:not(:disabled) {
+      background: hsl(30deg, 50%, 73.9130434783%);
+      color: #000;
+      border-color: #c4894f;
+    }
+
+    .light .accent button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.8) contrast(30%) brightness(1.6);
+    }
+
+    .light .accent-1 {
+      background: hsl(30deg, 50%, 100%);
+      color: #000;
+    }
+
+    .light .accent-1.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e6ccb3;
+      content: "accent-1 / 100%";
+    }
+
+    .light .accent-2 {
+      background: hsl(30deg, 50%, 95.652173913%);
+      color: #000;
+    }
+
+    .light .accent-2.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e0c1a2;
+      content: "accent-2 / 96%";
+    }
+
+    .light .accent-3 {
+      background: hsl(30deg, 50%, 91.3043478261%);
+      color: #000;
+    }
+
+    .light .accent-3.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #dab691;
+      content: "accent-3 / 91%";
+    }
+
+    .light .accent-4 {
+      background: hsl(30deg, 50%, 86.9565217391%);
+      color: #000;
+    }
+
+    .light .accent-4.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d5ab81;
+      content: "accent-4 / 87%";
+    }
+
+    .light .accent-5 {
+      background: hsl(30deg, 50%, 82.6086956522%);
+      color: #000;
+    }
+
+    .light .accent-5.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cfa070;
+      content: "accent-5 / 83%";
+    }
+
+    .light .accent-6 {
+      background: hsl(30deg, 50%, 78.2608695652%);
+      color: #000;
+    }
+
+    .light .accent-6.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #ca955f;
+      content: "accent-6 / 78%";
+    }
+
+    .light .accent-7 {
+      background: hsl(30deg, 50%, 73.9130434783%);
+      color: #000;
+    }
+
+    .light .accent-7.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c4894f;
+      content: "accent-7 / 74%";
+    }
+
+    .light .accent-8 {
+      background: hsl(30deg, 50%, 69.5652173913%);
+      color: #000;
+    }
+
+    .light .accent-8.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #be7e3f;
+      content: "accent-8 / 70%";
+    }
+
+    .light .accent-9 {
+      background: hsl(30deg, 50%, 65.2173913043%);
+      color: #000;
+    }
+
+    .light .accent-9.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #ad733a;
+      content: "accent-9 / 65%";
+    }
+
+    .light .accent-10 {
+      background: hsl(30deg, 50%, 60.8695652174%);
+      color: #000;
+    }
+
+    .light .accent-10.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #9c6834;
+      content: "accent-10 / 61%";
+    }
+
+    .light .accent-11 {
+      background: hsl(30deg, 50%, 56.5217391304%);
+      color: #000;
+    }
+
+    .light .accent-11.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e1c3a5;
+      content: "accent-11 / 57%";
+    }
+
+    .light .accent-12 {
+      background: hsl(30deg, 50%, 52.1739130435%);
+      color: #000;
+    }
+
+    .light .accent-12.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #dcb895;
+      content: "accent-12 / 52%";
+    }
+
+    .light .accent-13 {
+      background: hsl(30deg, 50%, 47.8260869565%);
+      color: #ddd;
+    }
+
+    .light .accent-13.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d6ad84;
+      content: "accent-13 / 48%";
+    }
+
+    .light .accent-14 {
+      background: hsl(30deg, 50%, 43.4782608696%);
+      color: #ddd;
+    }
+
+    .light .accent-14.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d0a273;
+      content: "accent-14 / 43%";
+    }
+
+    .light .accent-15 {
+      background: hsl(30deg, 50%, 39.1304347826%);
+      color: #ddd;
+    }
+
+    .light .accent-15.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cb9763;
+      content: "accent-15 / 39%";
+    }
+
+    .light .accent-16 {
+      background: hsl(30deg, 50%, 34.7826086957%);
+      color: #ddd;
+    }
+
+    .light .accent-16.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c58c52;
+      content: "accent-16 / 35%";
+    }
+
+    .light .accent-17 {
+      background: hsl(30deg, 50%, 30.4347826087%);
+      color: #ddd;
+    }
+
+    .light .accent-17.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c08141;
+      content: "accent-17 / 30%";
+    }
+
+    .light .accent-18 {
+      background: hsl(30deg, 50%, 26.0869565217%);
+      color: #ddd;
+    }
+
+    .light .accent-18.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b0763b;
+      content: "accent-18 / 26%";
+    }
+
+    .light .accent-19 {
+      background: hsl(30deg, 50%, 21.7391304348%);
+      color: #ddd;
+    }
+
+    .light .accent-19.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a06a35;
+      content: "accent-19 / 22%";
+    }
+
+    .light .accent-20 {
+      background: hsl(30deg, 50%, 17.3913043478%);
+      color: #ddd;
+    }
+
+    .light .accent-20.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #8f5f30;
+      content: "accent-20 / 17%";
+    }
+
+    .light .accent-21 {
+      background: hsl(30deg, 50%, 13.0434782609%);
+      color: #ddd;
+    }
+
+    .light .accent-21.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #7e542a;
+      content: "accent-21 / 13%";
+    }
+
+    .light .accent-22 {
+      background: hsl(30deg, 50%, 8.6956521739%);
+      color: #ddd;
+    }
+
+    .light .accent-22.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #6e4925;
+      content: "accent-22 / 9%";
+    }
+
+    .light .accent-23 {
+      background: hsl(30deg, 50%, 4.347826087%);
+      color: #ddd;
+    }
+
+    .light .accent-23.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5d3e1f;
+      content: "accent-23 / 4%";
+    }
+
+    .light .accent-24 {
+      background: hsl(30deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .light .accent-24.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #4d331a;
+      content: "accent-24 / 0%";
+    }
+
+    .light .danger .app {
+      padding: 3em;
+      background: hsl(0deg, 50%, 100%);
+      color: #000;
+    }
+
+    .light .danger button {
+      border-radius: 12px;
+      box-sizing: border-box;
+      clear: both;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 0.6em 0 0.6em 0;
+      padding: 0.6em 1.6em;
+      background: hsl(0deg, 50%, 78.2608695652%);
+      color: #000;
+      border: solid 2px #ca5f5f;
+    }
+
+    .light .danger button+button {
+      margin-left: 0.6em;
+    }
+
+    .light .danger button.outline {
+      background: transparent;
+    }
+
+    .light .danger button:hover:not(:disabled) {
+      background: hsl(0deg, 50%, 69.5652173913%);
+      color: #000;
+      border-color: #be3f3f;
+    }
+
+    .light .danger button:active:not(:disabled) {
+      background: hsl(0deg, 50%, 73.9130434783%);
+      color: #000;
+      border-color: #c44f4f;
+    }
+
+    .light .danger button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.8) contrast(30%) brightness(1.6);
+    }
+
+    .light .danger-1 {
+      background: hsl(0deg, 50%, 100%);
+      color: #000;
+    }
+
+    .light .danger-1.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e6b3b3;
+      content: "danger-1 / 100%";
+    }
+
+    .light .danger-2 {
+      background: hsl(0deg, 50%, 95.652173913%);
+      color: #000;
+    }
+
+    .light .danger-2.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e0a2a2;
+      content: "danger-2 / 96%";
+    }
+
+    .light .danger-3 {
+      background: hsl(0deg, 50%, 91.3043478261%);
+      color: #000;
+    }
+
+    .light .danger-3.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #da9191;
+      content: "danger-3 / 91%";
+    }
+
+    .light .danger-4 {
+      background: hsl(0deg, 50%, 86.9565217391%);
+      color: #000;
+    }
+
+    .light .danger-4.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d58181;
+      content: "danger-4 / 87%";
+    }
+
+    .light .danger-5 {
+      background: hsl(0deg, 50%, 82.6086956522%);
+      color: #000;
+    }
+
+    .light .danger-5.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cf7070;
+      content: "danger-5 / 83%";
+    }
+
+    .light .danger-6 {
+      background: hsl(0deg, 50%, 78.2608695652%);
+      color: #000;
+    }
+
+    .light .danger-6.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #ca5f5f;
+      content: "danger-6 / 78%";
+    }
+
+    .light .danger-7 {
+      background: hsl(0deg, 50%, 73.9130434783%);
+      color: #000;
+    }
+
+    .light .danger-7.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c44f4f;
+      content: "danger-7 / 74%";
+    }
+
+    .light .danger-8 {
+      background: hsl(0deg, 50%, 69.5652173913%);
+      color: #000;
+    }
+
+    .light .danger-8.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #be3f3f;
+      content: "danger-8 / 70%";
+    }
+
+    .light .danger-9 {
+      background: hsl(0deg, 50%, 65.2173913043%);
+      color: #000;
+    }
+
+    .light .danger-9.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #ad3a3a;
+      content: "danger-9 / 65%";
+    }
+
+    .light .danger-10 {
+      background: hsl(0deg, 50%, 60.8695652174%);
+      color: #000;
+    }
+
+    .light .danger-10.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #9c3434;
+      content: "danger-10 / 61%";
+    }
+
+    .light .danger-11 {
+      background: hsl(0deg, 50%, 56.5217391304%);
+      color: #000;
+    }
+
+    .light .danger-11.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e1a5a5;
+      content: "danger-11 / 57%";
+    }
+
+    .light .danger-12 {
+      background: hsl(0deg, 50%, 52.1739130435%);
+      color: #000;
+    }
+
+    .light .danger-12.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #dc9595;
+      content: "danger-12 / 52%";
+    }
+
+    .light .danger-13 {
+      background: hsl(0deg, 50%, 47.8260869565%);
+      color: #ddd;
+    }
+
+    .light .danger-13.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d68484;
+      content: "danger-13 / 48%";
+    }
+
+    .light .danger-14 {
+      background: hsl(0deg, 50%, 43.4782608696%);
+      color: #ddd;
+    }
+
+    .light .danger-14.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d07373;
+      content: "danger-14 / 43%";
+    }
+
+    .light .danger-15 {
+      background: hsl(0deg, 50%, 39.1304347826%);
+      color: #ddd;
+    }
+
+    .light .danger-15.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cb6363;
+      content: "danger-15 / 39%";
+    }
+
+    .light .danger-16 {
+      background: hsl(0deg, 50%, 34.7826086957%);
+      color: #ddd;
+    }
+
+    .light .danger-16.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c55252;
+      content: "danger-16 / 35%";
+    }
+
+    .light .danger-17 {
+      background: hsl(0deg, 50%, 30.4347826087%);
+      color: #ddd;
+    }
+
+    .light .danger-17.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c04141;
+      content: "danger-17 / 30%";
+    }
+
+    .light .danger-18 {
+      background: hsl(0deg, 50%, 26.0869565217%);
+      color: #ddd;
+    }
+
+    .light .danger-18.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b03b3b;
+      content: "danger-18 / 26%";
+    }
+
+    .light .danger-19 {
+      background: hsl(0deg, 50%, 21.7391304348%);
+      color: #ddd;
+    }
+
+    .light .danger-19.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a03535;
+      content: "danger-19 / 22%";
+    }
+
+    .light .danger-20 {
+      background: hsl(0deg, 50%, 17.3913043478%);
+      color: #ddd;
+    }
+
+    .light .danger-20.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #8f3030;
+      content: "danger-20 / 17%";
+    }
+
+    .light .danger-21 {
+      background: hsl(0deg, 50%, 13.0434782609%);
+      color: #ddd;
+    }
+
+    .light .danger-21.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #7e2a2a;
+      content: "danger-21 / 13%";
+    }
+
+    .light .danger-22 {
+      background: hsl(0deg, 50%, 8.6956521739%);
+      color: #ddd;
+    }
+
+    .light .danger-22.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #6e2525;
+      content: "danger-22 / 9%";
+    }
+
+    .light .danger-23 {
+      background: hsl(0deg, 50%, 4.347826087%);
+      color: #ddd;
+    }
+
+    .light .danger-23.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5d1f1f;
+      content: "danger-23 / 4%";
+    }
+
+    .light .danger-24 {
+      background: hsl(0deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .light .danger-24.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #4d1a1a;
+      content: "danger-24 / 0%";
+    }
+
+    .light .warning .app {
+      padding: 3em;
+      background: hsl(40deg, 50%, 100%);
+      color: #000;
+    }
+
+    .light .warning button {
+      border-radius: 12px;
+      box-sizing: border-box;
+      clear: both;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 0.6em 0 0.6em 0;
+      padding: 0.6em 1.6em;
+      background: hsl(40deg, 50%, 78.2608695652%);
+      color: #000;
+      border: solid 2px #caa65f;
+    }
+
+    .light .warning button+button {
+      margin-left: 0.6em;
+    }
+
+    .light .warning button.outline {
+      background: transparent;
+    }
+
+    .light .warning button:hover:not(:disabled) {
+      background: hsl(40deg, 50%, 69.5652173913%);
+      color: #000;
+      border-color: #be933f;
+    }
+
+    .light .warning button:active:not(:disabled) {
+      background: hsl(40deg, 50%, 73.9130434783%);
+      color: #000;
+      border-color: #c49d4f;
+    }
+
+    .light .warning button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.8) contrast(30%) brightness(1.6);
+    }
+
+    .light .warning-1 {
+      background: hsl(40deg, 50%, 100%);
+      color: #000;
+    }
+
+    .light .warning-1.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e6d5b3;
+      content: "warning-1 / 100%";
+    }
+
+    .light .warning-2 {
+      background: hsl(40deg, 50%, 95.652173913%);
+      color: #000;
+    }
+
+    .light .warning-2.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e0cba2;
+      content: "warning-2 / 96%";
+    }
+
+    .light .warning-3 {
+      background: hsl(40deg, 50%, 91.3043478261%);
+      color: #000;
+    }
+
+    .light .warning-3.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #dac291;
+      content: "warning-3 / 91%";
+    }
+
+    .light .warning-4 {
+      background: hsl(40deg, 50%, 86.9565217391%);
+      color: #000;
+    }
+
+    .light .warning-4.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d5b981;
+      content: "warning-4 / 87%";
+    }
+
+    .light .warning-5 {
+      background: hsl(40deg, 50%, 82.6086956522%);
+      color: #000;
+    }
+
+    .light .warning-5.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cfb070;
+      content: "warning-5 / 83%";
+    }
+
+    .light .warning-6 {
+      background: hsl(40deg, 50%, 78.2608695652%);
+      color: #000;
+    }
+
+    .light .warning-6.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #caa65f;
+      content: "warning-6 / 78%";
+    }
+
+    .light .warning-7 {
+      background: hsl(40deg, 50%, 73.9130434783%);
+      color: #000;
+    }
+
+    .light .warning-7.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c49d4f;
+      content: "warning-7 / 74%";
+    }
+
+    .light .warning-8 {
+      background: hsl(40deg, 50%, 69.5652173913%);
+      color: #000;
+    }
+
+    .light .warning-8.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #be933f;
+      content: "warning-8 / 70%";
+    }
+
+    .light .warning-9 {
+      background: hsl(40deg, 50%, 65.2173913043%);
+      color: #000;
+    }
+
+    .light .warning-9.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #ad873a;
+      content: "warning-9 / 65%";
+    }
+
+    .light .warning-10 {
+      background: hsl(40deg, 50%, 60.8695652174%);
+      color: #000;
+    }
+
+    .light .warning-10.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #9c7a34;
+      content: "warning-10 / 61%";
+    }
+
+    .light .warning-11 {
+      background: hsl(40deg, 50%, 56.5217391304%);
+      color: #000;
+    }
+
+    .light .warning-11.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #e1cda5;
+      content: "warning-11 / 57%";
+    }
+
+    .light .warning-12 {
+      background: hsl(40deg, 50%, 52.1739130435%);
+      color: #000;
+    }
+
+    .light .warning-12.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #dcc495;
+      content: "warning-12 / 52%";
+    }
+
+    .light .warning-13 {
+      background: hsl(40deg, 50%, 47.8260869565%);
+      color: #ddd;
+    }
+
+    .light .warning-13.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d6bb84;
+      content: "warning-13 / 48%";
+    }
+
+    .light .warning-14 {
+      background: hsl(40deg, 50%, 43.4782608696%);
+      color: #ddd;
+    }
+
+    .light .warning-14.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #d0b173;
+      content: "warning-14 / 43%";
+    }
+
+    .light .warning-15 {
+      background: hsl(40deg, 50%, 39.1304347826%);
+      color: #ddd;
+    }
+
+    .light .warning-15.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #cba863;
+      content: "warning-15 / 39%";
+    }
+
+    .light .warning-16 {
+      background: hsl(40deg, 50%, 34.7826086957%);
+      color: #ddd;
+    }
+
+    .light .warning-16.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c59f52;
+      content: "warning-16 / 35%";
+    }
+
+    .light .warning-17 {
+      background: hsl(40deg, 50%, 30.4347826087%);
+      color: #ddd;
+    }
+
+    .light .warning-17.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #c09641;
+      content: "warning-17 / 30%";
+    }
+
+    .light .warning-18 {
+      background: hsl(40deg, 50%, 26.0869565217%);
+      color: #ddd;
+    }
+
+    .light .warning-18.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b0893b;
+      content: "warning-18 / 26%";
+    }
+
+    .light .warning-19 {
+      background: hsl(40deg, 50%, 21.7391304348%);
+      color: #ddd;
+    }
+
+    .light .warning-19.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a07c35;
+      content: "warning-19 / 22%";
+    }
+
+    .light .warning-20 {
+      background: hsl(40deg, 50%, 17.3913043478%);
+      color: #ddd;
+    }
+
+    .light .warning-20.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #8f6f30;
+      content: "warning-20 / 17%";
+    }
+
+    .light .warning-21 {
+      background: hsl(40deg, 50%, 13.0434782609%);
+      color: #ddd;
+    }
+
+    .light .warning-21.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #7e622a;
+      content: "warning-21 / 13%";
+    }
+
+    .light .warning-22 {
+      background: hsl(40deg, 50%, 8.6956521739%);
+      color: #ddd;
+    }
+
+    .light .warning-22.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #6e5525;
+      content: "warning-22 / 9%";
+    }
+
+    .light .warning-23 {
+      background: hsl(40deg, 50%, 4.347826087%);
+      color: #ddd;
+    }
+
+    .light .warning-23.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5d481f;
+      content: "warning-23 / 4%";
+    }
+
+    .light .warning-24 {
+      background: hsl(40deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .light .warning-24.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #4d3c1a;
+      content: "warning-24 / 0%";
+    }
+
+    .light .success .app {
+      padding: 3em;
+      background: hsl(120deg, 50%, 100%);
+      color: #000;
+    }
+
+    .light .success button {
+      border-radius: 12px;
+      box-sizing: border-box;
+      clear: both;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 0.6em 0 0.6em 0;
+      padding: 0.6em 1.6em;
+      background: hsl(120deg, 50%, 78.2608695652%);
+      color: #000;
+      border: solid 2px #5fca5f;
+    }
+
+    .light .success button+button {
+      margin-left: 0.6em;
+    }
+
+    .light .success button.outline {
+      background: transparent;
+    }
+
+    .light .success button:hover:not(:disabled) {
+      background: hsl(120deg, 50%, 69.5652173913%);
+      color: #000;
+      border-color: #3fbe3f;
+    }
+
+    .light .success button:active:not(:disabled) {
+      background: hsl(120deg, 50%, 73.9130434783%);
+      color: #000;
+      border-color: #4fc44f;
+    }
+
+    .light .success button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.8) contrast(30%) brightness(1.6);
+    }
+
+    .light .success-1 {
+      background: hsl(120deg, 50%, 100%);
+      color: #000;
+    }
+
+    .light .success-1.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #b3e6b3;
+      content: "success-1 / 100%";
+    }
+
+    .light .success-2 {
+      background: hsl(120deg, 50%, 95.652173913%);
+      color: #000;
+    }
+
+    .light .success-2.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a2e0a2;
+      content: "success-2 / 96%";
+    }
+
+    .light .success-3 {
+      background: hsl(120deg, 50%, 91.3043478261%);
+      color: #000;
+    }
+
+    .light .success-3.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #91da91;
+      content: "success-3 / 91%";
+    }
+
+    .light .success-4 {
+      background: hsl(120deg, 50%, 86.9565217391%);
+      color: #000;
+    }
+
+    .light .success-4.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #81d581;
+      content: "success-4 / 87%";
+    }
+
+    .light .success-5 {
+      background: hsl(120deg, 50%, 82.6086956522%);
+      color: #000;
+    }
+
+    .light .success-5.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #70cf70;
+      content: "success-5 / 83%";
+    }
+
+    .light .success-6 {
+      background: hsl(120deg, 50%, 78.2608695652%);
+      color: #000;
+    }
+
+    .light .success-6.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #5fca5f;
+      content: "success-6 / 78%";
+    }
+
+    .light .success-7 {
+      background: hsl(120deg, 50%, 73.9130434783%);
+      color: #000;
+    }
+
+    .light .success-7.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #4fc44f;
+      content: "success-7 / 74%";
+    }
+
+    .light .success-8 {
+      background: hsl(120deg, 50%, 69.5652173913%);
+      color: #000;
+    }
+
+    .light .success-8.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3fbe3f;
+      content: "success-8 / 70%";
+    }
+
+    .light .success-9 {
+      background: hsl(120deg, 50%, 65.2173913043%);
+      color: #000;
+    }
+
+    .light .success-9.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3aad3a;
+      content: "success-9 / 65%";
+    }
+
+    .light .success-10 {
+      background: hsl(120deg, 50%, 60.8695652174%);
+      color: #000;
+    }
+
+    .light .success-10.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #349c34;
+      content: "success-10 / 61%";
+    }
+
+    .light .success-11 {
+      background: hsl(120deg, 50%, 56.5217391304%);
+      color: #000;
+    }
+
+    .light .success-11.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #a5e1a5;
+      content: "success-11 / 57%";
+    }
+
+    .light .success-12 {
+      background: hsl(120deg, 50%, 52.1739130435%);
+      color: #000;
+    }
+
+    .light .success-12.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #95dc95;
+      content: "success-12 / 52%";
+    }
+
+    .light .success-13 {
+      background: hsl(120deg, 50%, 47.8260869565%);
+      color: #ddd;
+    }
+
+    .light .success-13.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #84d684;
+      content: "success-13 / 48%";
+    }
+
+    .light .success-14 {
+      background: hsl(120deg, 50%, 43.4782608696%);
+      color: #ddd;
+    }
+
+    .light .success-14.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #73d073;
+      content: "success-14 / 43%";
+    }
+
+    .light .success-15 {
+      background: hsl(120deg, 50%, 39.1304347826%);
+      color: #ddd;
+    }
+
+    .light .success-15.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #63cb63;
+      content: "success-15 / 39%";
+    }
+
+    .light .success-16 {
+      background: hsl(120deg, 50%, 34.7826086957%);
+      color: #ddd;
+    }
+
+    .light .success-16.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #52c552;
+      content: "success-16 / 35%";
+    }
+
+    .light .success-17 {
+      background: hsl(120deg, 50%, 30.4347826087%);
+      color: #ddd;
+    }
+
+    .light .success-17.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #41c041;
+      content: "success-17 / 30%";
+    }
+
+    .light .success-18 {
+      background: hsl(120deg, 50%, 26.0869565217%);
+      color: #ddd;
+    }
+
+    .light .success-18.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #3bb03b;
+      content: "success-18 / 26%";
+    }
+
+    .light .success-19 {
+      background: hsl(120deg, 50%, 21.7391304348%);
+      color: #ddd;
+    }
+
+    .light .success-19.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #35a035;
+      content: "success-19 / 22%";
+    }
+
+    .light .success-20 {
+      background: hsl(120deg, 50%, 17.3913043478%);
+      color: #ddd;
+    }
+
+    .light .success-20.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #308f30;
+      content: "success-20 / 17%";
+    }
+
+    .light .success-21 {
+      background: hsl(120deg, 50%, 13.0434782609%);
+      color: #ddd;
+    }
+
+    .light .success-21.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #2a7e2a;
+      content: "success-21 / 13%";
+    }
+
+    .light .success-22 {
+      background: hsl(120deg, 50%, 8.6956521739%);
+      color: #ddd;
+    }
+
+    .light .success-22.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #256e25;
+      content: "success-22 / 9%";
+    }
+
+    .light .success-23 {
+      background: hsl(120deg, 50%, 4.347826087%);
+      color: #ddd;
+    }
+
+    .light .success-23.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #1f5d1f;
+      content: "success-23 / 4%";
+    }
+
+    .light .success-24 {
+      background: hsl(120deg, 50%, 0%);
+      color: #ddd;
+    }
+
+    .light .success-24.shade::after {
+      padding: 0.2em 0.4em;
+      border: solid 1px #1a4d1a;
+      content: "success-24 / 0%";
+    }
+
+    .shades {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .shade {
+      width: 16.6666666667%;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .palette {
+      padding: 2em;
+      margin: 2em 0;
+    }
+  </style>
+</head>
+
+<body id="app">
+  <header>
+    <h1>Itinerary</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#" class="active">Contact</a>
+      <a href="#">Pricing</a>
+      <a href="#">Product</a>
+      <label class="inline">
+        <input type="checkbox" v-model="data.darkTheme">
+        <span>Dark Theme</span>
+      </label>
+    </nav>
+  </header>
+  <h1>{{ data.title }}</h1>
+  <div class="themes">
+    <div v-for="theme in data.themes" :class="theme">
+      <h1>{{ theme }}</h1>
+      <div class="palettes">
+        <div v-for="palette in data.palettes" class="palette" :class="[palette, palette + '-4']">
+          <div class="box">
+            <header class="frost">
+            </header>
+            <h1>Hello.</h1>
+            <button>Default</button>
+            <button class="outline">Outline</button>
+            <button disabled="">Disabled</button>
+          </div>
+          <div class="shades">
+            <div v-for="index in 24" :key="index" class="shade" :class="palette + '-' + index">
+              <!-- {{ palette }}-{{ index }} -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    import {
+      createApp as e,
+      reactive as t
+    } from "https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js";
+    e({
+      data: t({
+        theme: "dark",
+        title: "Hello. v2",
+        themes: ["dark", "light"],
+        palettes: ["neutral", "primary", "accent", "danger", "warning", "success"]
+      })
+    }).mount("#app");
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,297 @@
+@use 'sass:color';
+@use 'sass:math';
+
+// Module Parameters
+
+// Palette
+$base: #333;
+$primary: #6691fd !default;
+$accent: color.complement($primary) !default;
+$danger: get-danger-color($primary) !default;
+$warning: get-warning-color($primary) !default;
+$success: get-success-color($primary) !default;
+$link: get-link-color($primary) !default;
+$background: #fff !default;
+$text: #000 !default;
+
+// Typography
+$size: 16px !default;
+$family: "Helvetica, Ariel, sans-serif" !default;
+$weight: 100 !default;
+
+// Effects
+$depth: 0 !default;
+$roundness: 0 !default;
+$transluceny: 0 !default;
+$whiteSpace: 0 !default;
+
+
+
+
+$base: #fff !default;
+$darkBase: #333 !default;
+
+$roundness: .3em !default;
+$translucency: 0 !default;
+$depth: 1 !default;
+$whitespace: 1em !default;
+$size: 16px !default;
+
+
+// Functions
+
+@function is-dark($color) {
+  @return color.lightness($color) < 50;
+}
+
+@function get-text-color($background) {
+  $isDark: is-dark($background);
+  @if $isDark {
+    @return #ddd;
+  } @else {
+    @return #000;
+  }
+}
+
+@function get-shadow-color($color) {
+  $isDark: is-dark($color);
+  @if $isDark {
+    @return #fff2;
+  } @else {
+    @return #0002;
+  }
+}
+
+@function get-dark-color($color) {
+  $lightness: color.lightness($color);
+  @if $lightness == 50% {
+    @return $color;
+  } @else {
+    @return color.adjust($color, $lightness: $lightness - 100);
+  }
+}
+
+@function raise-color($color, $amount) {
+  $isDark: is-dark($color);
+  @if ($isDark) {
+    @return color.adjust($color, $lightness: $amount * 5%);
+  } @else {
+    @return color.adjust($color, $lightness: -$amount * 5%);
+  }
+}
+
+@function get-danger-color($color) {
+
+}
+
+@function get-warning-color($color) {
+
+}
+
+@function get-success-color($color) {
+
+}
+
+@function get-disabled-color($color) {
+  $isDark: is-dark($color);
+  @if $isDark {
+    @return color.grayscale(darken($color, 10));
+  } @else {
+    @return color.grayscale(lighten($color, 10));
+  }
+}
+
+@function get-disabled-text-color($disableColor) {
+  $isDark: is-dark($disableColor);
+  @if $isDark {
+    @return lighten($disableColor, 25);
+  } @else {
+    @return darken($disableColor, 25);
+  }
+}
+
+@function get-link-color($background) {
+  $isDark: is-dark($background);
+  $lightness: 50%;
+  @if $isDark {
+    $lightness: -10%
+  }
+  $textColor: get-text-color($background);
+  $hue: color.hue($textColor);
+  @return color.adjust($textColor,
+    $hue: $hue - 140,
+    $saturation: 100%,
+    $lightness: $lightness
+  );
+}
+
+
+
+// Mixins
+
+@mixin box() {
+  @if $roundness > 0 {
+    border-radius: #{$roundness};
+  }
+}
+
+@mixin panel($level, $color) {
+  @include box();
+  $background: raise-color($color, $level);
+  background: #{$background};
+  border: solid 1px raise-color($background, 2);
+  color: get-text-color($background);
+}
+
+@mixin overlay($level, $color) {
+  @include box();
+  padding: 2em 5em;
+  margin: 1em 4em;
+  @if $depth > 0 {
+    $shadowColor: get-shadow-color($color);
+    $mid: $level * $depth;
+    $low: $mid / 1.6;
+    $high: $mid * 1.75;
+    box-shadow: 0 #{$low}px #{$low}px -#{$low * .6}px #{$shadowColor},
+      0 #{$mid}px #{$mid * 1.25}px #{$mid * .1}px #{$shadowColor},
+      0 #{$mid * .375}px #{$high}px #{$mid / 4}px #{$shadowColor};
+  }
+}
+
+@function get-from($type, $source) {
+
+  @if $type = 'base' {
+
+  } @else if $type == 'accent' {
+    @return color.complement($source);
+  } @else if $type == 'danger' {
+    $hue: color.hue($color);
+    @return color.adjust($color, $hue: -$hue);
+  } @else if $type == 'warning' {
+    $hue: color.hue($color);
+    @return color.adjust($color, $hue: 35 - $hue);
+  } @else if $type == 'success' {
+    $hue: color.hue($color);
+    @return color.adjust($color, $hue: 128 - $hue);
+  } @else if $type == 'link' {
+    @return $source;
+  }
+}
+
+@mixin styles(
+  $base,
+
+  $primary,
+  $accent,
+
+  $danger,
+  $warning,
+  $success,
+  $info,
+
+  $link,
+  $text,
+
+) {
+
+}
+
+
+
+:root{
+  color-scheme: light dark;
+  @media (prefers-color-scheme: dark) {
+
+    $primary: get-dark-color($primary);
+    $accent: get-dark-color($accent);
+    $danger: get-dark-color($danger);
+    $warning: get-dark-color($warning);
+    $success: get-dark-color($success);
+    $link: get-dark-color($link);
+    $background: #333;
+    $text-color: #fff;
+
+    --primaryText: #{get-text-color($primary)};
+    --accentText: #{get-text-color($accent)};
+    --dangerText: #{get-text-color($danger)};
+    --warningText: #{get-text-color($warning)};
+    --successText: #{get-text-color($success)};
+
+    --primary: #{$primary};
+    --accent: #{$accent};
+    --danger: #{$danger};
+    --warning: #{$warning};
+    --success: #{$success};
+
+    --background: #{$background};
+    --background-1: #{raise-color($background, 1)};
+    --background-2: #{raise-color($background, 2)};
+    --background-3: #{raise-color($background, 3)};
+    --background-4: #{raise-color($background, 4)};
+    --background-5: #{raise-color($background, 5)};
+    --text: #{$text};
+  }
+
+  @media (prefers-color-scheme: light) {
+    --primary: #{$primary};
+    --accent: #{$accent};
+    --danger: #{$danger};
+    --warning: #{$warning};
+    --success: #{$success};
+
+    --primaryText: #{get-text-color($primary)};
+    --accentText: #{get-text-color($accent)};
+    --dangerText: #{get-text-color($danger)};
+    --warningText: #{get-text-color($warning)};
+    --successText: #{get-text-color($success)};
+
+    --background: #{$background};
+    --background-1: #{raise-color($background, 1)};
+    --background-2: #{raise-color($background, 2)};
+    --background-3: #{raise-color($background, 3)};
+    --background-4: #{raise-color($background, 4)};
+    --background-5: #{raise-color($background, 5)};
+    --text: #{$text};
+  }
+}
+
+html,body{
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+body{
+  background: var(--background);
+  color: var(--text);
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: $size;
+  line-height: 1.7em;
+  overflow: auto;
+
+  transition: background var(--animation-duration) ease,
+    border-color var(--animation-duration) ease,
+    color var(--animation-duration) ease;
+}
+
+a,a:visited{
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+button{
+  padding: 1em 2em;
+  border: none;
+  @include box();
+
+  &.primary{ background: var(--primary); color: var(--primaryText); }
+  &.accent{ background: var(--accent); color: var(--accentText); }
+  &.danger{ background: var(--danger); color: var(--dangerText); }
+  &.warning{ background: var(--warning); color: var(--warningText); }
+  &.success{ background: var(--success); color: var(--successText); }
+}
+
+.card{
+  @include box();
+  @include panel(1, var(--background-1));
+}

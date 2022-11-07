@@ -1,0 +1,19 @@
+{
+  "name": "itinerary",
+  "version": "0.0.0",
+  "description": "Plan your trip by creating days and pasting Google Maps URLs into each day to setup your itinerary.",
+  "author": "Trevor Reed",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "htmlc -s 'src/' -o docs/ -m",
+    "watch": "htmlc -s 'src/' -o docs/ -m -w",
+    "serve": "npx serve ./docs -l tcp://localhost:3000 -n -u"
+  },
+  "dependencies": {
+    "@yesiree/htmlc": "file:libs/htmlc",
+    "chokidar": "^3.5.3",
+    "glob-parent": "^6.0.2",
+    "sass": "^1.53.0"
+  }
+}

@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A simple, lightweight webpage.">
+    <title>Itinerary</title>
+    <link rel="stylesheet" href="draft3-app.scss" />
+  </head>
+  <body id="app" class="fixed-800" :class="{ 'dark-theme': data.darkTheme }">
+
+    <header>
+      <h1>Itinerary</h1>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#" class="active">Contact</a>
+        <a href="#">Pricing</a>
+        <a href="#">Product</a>
+        <label class="inline">
+          <input type="checkbox" v-model="data.darkTheme">
+          <span>Dark Theme</span>
+        </label>
+      </nav>
+    </header>
+
+
+    <!-- <div class="spinner"></div> -->
+
+    <div class="alert warning">
+      <header>
+        <h4>Warning</h4>
+        <button class="icon neutral">close</button>
+      </header>
+      <p>Lorum ipsum dolar sit.</p>
+    </div>
+    <div class="alert danger">
+      <header>
+        <h4>Danger</h4>
+        <button class="icon neutral">close</button>
+      </header>
+      <p>Lorum ipsum dolar sit.</p>
+    </div>
+    <div class="alert success">
+      <header>
+        <h4>Success</h4>
+        <button class="icon neutral">close</button>
+      </header>
+      <p>Lorum ipsum dolar sit.</p>
+    </div>
+    <div class="alert primary">
+      <header>
+        <h4>Primary</h4>
+        <button class="icon neutral">close</button>
+      </header>
+      <p>Lorum ipsum dolar sit.</p>
+    </div>
+
+    <label>
+      <span>Welcome To The Ether</span>
+      <input type="text" placeholder="Enter your name">
+    </label>
+
+    <div>
+      <header>
+        <h1>Plan A Trip</h1>
+      </header>
+      <div>
+        <h4>Day 1</h4>
+      </div>
+      <section class="card">
+        <h6>First Location</h6>
+        <label>
+          <span>Title</span>
+          <input />
+        </label>
+        <label>
+          <span>Google Maps URL</span>
+          <input />
+        </label>
+        <div class="actions">
+          <button class="icon">close</button>
+          <button class="disabled icon">stop</button>
+          <button class="warning icon">archive</button>
+          <button class="danger icon">delete</button>
+          <button class="primary icon">save</button>
+
+        </div>
+      </section>
+    </div>
+
+
+    <table>
+      <thead>
+        <tr>
+          <th class="tight"><input type="checkbox" /></th>
+          <th class="wide">Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <input type="checkbox" />
+          </td>
+          <td>John Doe</td>
+          <td>john.doe@example.org</td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" />
+          </td>
+          <td>Jane Doe</td>
+          <td>jane.doe@example.org</td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" />
+          </td>
+          <td>James Doe</td>
+          <td>james.doe@example.org</td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" />
+          </td>
+          <td>Jenny Doe</td>
+          <td>jenny.doe@example.org</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <fieldset>
+      <legend>Personal Information</legend>
+      <button aria-label="Default">Default</button>
+      <button aria-label="Disabled" disabled>Disabled</button>
+      <button aria-label="Warning" class="warning">Warning</button>
+      <button aria-label="Danger" class="danger">Danger</button>
+      <button aria-label="Success" class="success">Success</button>
+      <button aria-label="Primary" class="primary">Primary</button>
+      <label>
+        <span>Filename</span>
+        <input type="file" multiple />
+      </label>
+      <label>
+        <span>Name</span>
+        <input type="text">
+      </label>
+      <label>
+        <span>Email</span>
+        <input type="email">
+      </label>
+      <label>
+        <span>Phone</span>
+        <input type="tel">
+      </label>
+      <label>
+        <span>Travel Date</span>
+        <input type="date">
+      </label>
+      <label>
+        <span>City</span>
+        <input type="text">
+      </label>
+      <label>
+        <span>State</span>
+        <select placeholder="Please choose a state">
+          <option>Utah</option>
+          <option>Idaho</option>
+          <option>Alaska</option>
+          <option>New York</option>
+          <option>Georgia</option>
+        </select>
+      </label>
+      <label>
+        Zip
+        <input type="number">
+      </label>
+      <label>
+        <span>Country</span>
+        <input type="text">
+      </label>
+      <label class="danger">
+        <span>Danger Zone</span>
+        <input />
+      </label>
+      <label>
+        <input type="radio" name="demo" />
+        <span>Default</span>
+      </label>
+      <label>
+        <input type="radio" name="demo" disabled />
+        <span>Disabled</span>
+      </label>
+      <label class="primary">
+        <input type="radio" name="demo" />
+        <span>Primary</span>
+      </label>
+      <label class="danger">
+        <input type="radio" name="demo" />
+        <span>Danger</span>
+      </label>
+      <label>
+        <input type="checkbox" />
+        <span>Default</span>
+      </label>
+      <label>
+        <input type="checkbox" disabled />
+        <span>Disabled</span>
+      </label>
+      <label>
+        <input type="checkbox" class="primary" />
+        <span>Primary</span>
+      </label>
+      <label class="danger">
+        <input type="checkbox" />
+        <span>Danger</span>
+      </label>
+    </fieldset>
+
+    <div class="tabs">
+      <div class="tab active" v-on:click="select">
+        Hello!
+      </div>
+      <div class="tab" v-on:click="select">
+        Welcome!
+      </div>
+      <div class="tab" v-on:click="select">
+        Goodbye!
+      </div>
+    </div>
+    <div class="tab-content">
+      <h1>Content!</h1>
+      <p>Lorum ipsum dolar sit.</p>
+    </div>
+
+    <div class="card">
+      <header>
+        <h2>Hello</h2>
+
+        <button class="icon">close</button>
+      </header>
+      <p>Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. Hello and welcome to this long sentence. </p>
+      <div class="actions">
+        <button class="icon danger">archive</button>
+        <button class="icon primary">save</button>
+      </div>
+    </div>
+
+    <section>
+      <h1>Header 1</h1>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid velit tenetur maiores accusantium cumque nihil ratione, dicta recusandae cum aspernatur commodi hic rem voluptatibus suscipit eius minima! Vero, beatae atque?</p>
+      <h2>Header 2</h2>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid velit tenetur maiores accusantium cumque nihil ratione, dicta recusandae cum aspernatur commodi hic rem voluptatibus suscipit eius minima! Vero, beatae atque?</p>
+      <h3>Header 3</h3>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid velit tenetur maiores accusantium cumque nihil ratione, dicta recusandae cum aspernatur commodi hic rem voluptatibus suscipit eius minima! Vero, beatae atque?</p>
+      <h4>Header 4</h4>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid velit tenetur maiores accusantium cumque nihil ratione, dicta recusandae cum aspernatur commodi hic rem voluptatibus suscipit eius minima! Vero, beatae atque?</p>
+      <h5>Header 5</h5>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid velit tenetur maiores accusantium cumque nihil ratione, dicta recusandae cum aspernatur commodi hic rem voluptatibus suscipit eius minima! Vero, beatae atque?</p>
+      <h6>Header 6</h6>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid velit tenetur maiores accusantium cumque nihil ratione, dicta recusandae cum aspernatur commodi hic rem voluptatibus suscipit eius minima! Vero, beatae atque?</p>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid velit tenetur maiores accusantium cumque nihil ratione, dicta recusandae cum aspernatur commodi hic rem voluptatibus suscipit eius minima! Vero, beatae atque?</p>
+      <blockquote>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid velit tenetur maiores accusantium cumque nihil ratione, dicta recusandae cum aspernatur commodi hic rem voluptatibus suscipit eius minima! Vero, beatae atque?</p>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid velit tenetur maiores accusantium cumque nihil ratione, dicta recusandae cum aspernatur commodi hic rem voluptatibus suscipit eius minima! Vero, beatae atque?</p>
+      </blockquote>
+      <pre><code>var foo = 'bar'
+
+function greet(name) {
+  console.log('Hello ' + name)
+}
+
+greet('World')</code></pre>
+      <p>This is a sentence with <code>inline code</code> inside of it.</p>
+    </section>
+
+    <section>
+      <button aria-label="Default">Default</button>
+      <button aria-label="Disabled" disabled>Disabled</button>
+      <button aria-label="Warning" class="warning">Warning</button>
+      <button aria-label="Danger" class="danger">Danger</button>
+      <button aria-label="Success" class="success">Success</button>
+      <button aria-label="Primary" class="primary">Primary</button>
+    </section>
+
+    <script type="module">
+      import { createApp, reactive } from 'https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js'
+
+      createApp({
+        data: reactive({
+          darkTheme: true
+        }),
+        // toggleTheme() {
+        //   this.darkTheme = !this.darkTheme
+        //   if (this.darkTheme) {
+        //     document.body.classList.add('dark-theme')
+        //   } else {
+        //     document.body.classList.remove('dark-theme')
+        //   }
+        // },
+        select(e) {
+          document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active')
+          })
+          e.target.classList.add('active')
+        }
+      }).mount('#app')
+    </script>
+  </body>
+  <!-- <body id="app" foo="bar">
+    <header>
+      <h1>Itinerary Maker</h1>
+      <input
+          v-model="state.title"
+          placeholder="Trip title..." />
+      <input
+          v-model="state.startDate"
+          placeholder="Start date..."
+          type="date" />
+    </header>
+    <div v-for="(day, index) of state.days" class="day">
+      <h2>{{ formatDay(index) }}</h2>
+      <div v-for="stop of day.stops" class="stop">
+        <label>
+          <span>Label</span>
+          <input
+              v-model="stop.label"
+              placeholder="Label..." />
+        </label>
+        <label>
+          <span>Time</span>
+          <input
+              v-model="stop.time"
+              placeholder="Time..."
+              type="time" />
+        </label>
+        <label>
+          <span>Location</span>
+          <input
+              v-model="stop.location"
+              placeholder="Location..." />
+        </label>
+        <div class="actions">
+          <button>Remove</button>
+        </div>
+      </div>
+      <button>New Stop</button>
+    </div>
+    <div>
+      <button>New day</button>
+    </div>
+    <p>{{ state.title }}</p>
+    <p>{{ state.startDate }}</p>
+    <script type="module">
+      import { createApp, reactive } from 'https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js'
+
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+      const dateToString = date => {
+        if (!date) date = new Date()
+        const year = date.getFullYear()
+        const month = ('' + (date.getMonth() + 1)).padStart(2, '0')
+        const day = ('' + date.getDate()).padStart(2, '0')
+        return `${year}-${month}-${day}`
+      }
+
+      const stringToDate = string => {
+        const [year, month, day] = string.split('-')
+        return new Date(year, month - 1, day)
+      }
+
+      const toFormattedDate = date => {
+        if (!date) date = new Date()
+        if (typeof date === 'string') {
+          date = stringToDate(date)
+        }
+        const year = date.getFullYear()
+        const month = months[date.getMonth()]
+        const day = date.getDate()
+        const dow = days[date.getDay()]
+        return `${dow}, ${month} ${day}, ${year}`
+      }
+
+      const state = reactive({
+        title: '',
+        startDate: dateToString(),
+        days: [
+          {
+            stops: [
+              {
+                label: 'Place 1',
+                time: '12:00',
+                location: 'https://www.google.com/maps/search/?api=1&query=place1',
+              },
+              {
+                label: 'Place 2',
+                time: '13:00',
+                location: 'https://www.google.com/maps/search/?api=1&query=place2',
+              }
+            ]
+          },
+          {
+            stops: [
+              {
+                label: 'Place 2',
+                time: '12:00',
+                location: 'https://www.google.com/maps/search/?api=1&query=37.7749295,-122.4194155',
+              }
+            ]
+          }
+        ],
+      })
+
+      createApp({
+        state,
+        formatDay(index) {
+          const date = stringToDate(state.startDate)
+          date.setDate(date.getDate() + index)
+          return `Day ${index + 1} — ${toFormattedDate(date)}`
+        },
+      }).mount('#app')
+    </script>
+  </body> -->
+</html>

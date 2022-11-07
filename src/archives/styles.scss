@@ -1,0 +1,137 @@
+
+
+// html,body{
+//   box-sizing: border-box;
+//   height: 100%;
+//   margin: 0;
+// }
+// html {
+//   overflow: hidden;
+//   padding: 0;
+// }
+// body {
+//   background: #282828;
+//   color: #ccc;
+//   overflow: auto;
+//   padding: 2rem;
+//   font-size: 16px;
+//   font-family: Helvetica, Arial, sans-serif;
+// }
+// input,button{
+//   border-radius: .3rem;
+//   height: 2.7em;
+//   background: #0002;
+//   border: solid 1px #555;
+//   transition: background .4s ease, border-color .4s ease;
+//   &:hover{
+//     background: #0003;
+//   }
+// }
+// input{
+//   box-sizing: border-box;
+//   clear: top;
+//   color: #ccc;
+//   font-size: 1.2rem;
+//   margin: .6em 0;
+//   padding: .6em;
+//   outline: none;
+//   width: 100%;
+//   color-scheme: dark;
+//   &:focus{
+//     border-color: #ccc;
+//   }
+// }
+// button{
+//   box-sizing: border-box;
+//   clear: top;
+//   color: #ccc;
+//   margin: .6em 0;
+//   padding: .6em 1.6em;
+//   outline: none;
+//   color-scheme: dark;
+//   cursor: pointer;
+//   &:hover{
+//     background: #333;
+//   }
+//   &:active{
+//     background: #444;
+//   }
+// }
+
+// label{
+//   display: block;
+//   margin-bottom: .2em;
+//   &:focus-within{
+//     color: #fff;
+//   }
+// }
+
+// header{
+//   display: grid;
+//   grid-template: auto / repeat(5,1fr);
+//   grid-gap: 1em;
+//   margin-bottom: 1em;
+
+//   h1:nth-child(1){
+//     grid-row: 1;
+//     grid-column: 1 / span 5;
+//     margin: 0;
+//   }
+//   input:nth-child(1){
+//     grid-row: 2;
+//     grid-column: 1 / span 4;
+//   }
+//   input:nth-child(2){
+//     grid-row: 2;
+//     grid-column: 5 / 1;
+//   }
+// }
+
+// @mixin card ($level: 1) {
+//   /* $vertical-shadow: math.div($level, 2) + 0px; */
+//   $horizontal-shadow: math.div($level, 2) + 0px;
+//   $blur-radius: $level + 0px;
+//   box-shadow: 0 $horizontal-shadow $blur-radius rgba(0,0,0,0.5);
+//   padding: 1em;
+//   margin: 1em 0 2em;
+//   border-radius: .3em;
+//   border: solid 1px #fff4;
+//   background: #fff1;
+
+//   & > .actions{
+//     display: flex;
+//     justify-content: flex-end;
+//     grid-column: 1 / span 5;
+//   }
+// }
+
+// .day{
+//   margin-bottom: 2em;
+
+//   h2{
+//     font-size: 1.2rem;
+//     font-weight: normal;
+//     text-transform: uppercase;
+//   }
+// }
+
+// .stop{
+//   display: grid;
+//   grid-template-columns: repeat(5fr);
+//   grid-gap: .2em 1em;
+//   margin: 1em 0 3em;
+
+//   @include card(1);
+
+//   &>*:nth-child(1){
+//     grid-row: 1;
+//     grid-column: 1 / span 4;
+//   }
+//   &>*:nth-child(2){
+//     grid-row: 1;
+//     grid-column: 5 / auto;
+//   }
+//   &>*:nth-child(3){
+//     grid-column: 1 / span 5;
+//   }
+// }

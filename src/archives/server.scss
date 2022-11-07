@@ -1,0 +1,43 @@
+@use 'sass:map';
+
+
+$config: () !default;
+$config: map.deep-merge($config, (
+  size: 16px,
+  dark: (
+    size: 1px,
+    base: (
+      background: #333,
+      text: #ccc
+    )
+  ),
+  light: (
+    base: (
+      background: #fff,
+      text: #000
+    )
+  )
+));
+
+@debug($config);
+
+@mixin styles($theme) {
+  body{
+    background: map.get($config, $theme, base, background);
+    color: map.get($config, $theme, base, text);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  @include styles(light);
+}
+
+@media (prefers-color-scheme: dark) {
+  @include styles(dark);
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  size: map.get($config, size);
+}

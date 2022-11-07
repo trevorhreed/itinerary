@@ -1,0 +1,1126 @@
+@use 'sass:math';
+@use 'sass:color';
+@use 'sass:map';
+@use 'sass:list';
+
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
+////////////////////////////////////////////////////
+//  Functions
+//
+
+@function if($condition, $value1, $value2) {
+  @if $condition == true {
+    @return $value1;
+  } @else {
+    @return $value2;
+  }
+}
+
+@function get-from-map($fallback, $map, $keys...) {
+  $value: map.get($map, $keys...);
+  @if $value != null {
+    @return $value;
+  } @else {
+    @return  $fallback;
+  }
+}
+
+@function get-text-for($background, $grayscale: true, $soft: false) {
+  $lightness: color.lightness($background);
+  $is-dark: $lightness < 50;
+  @if $is-dark {
+    @if $grayscale {
+      @if $soft {
+        @return #888;
+      } @else {
+        @return #ddd;
+      }
+    } @else {
+      @if $soft {
+        @return color.adjust($background, $lightness: 60% - $lightness);
+      } @else {
+        @return color.adjust($background, $lightness: 80% - $lightness);
+      }
+    }
+  } @else {
+    @if $grayscale {
+      @if $soft {
+        @return #000;
+      } @else {
+        @return #000;
+      }
+    } @else {
+      @if $soft {
+        @return color.adjust($background, $lightness: 40% - $lightness);
+      } @else {
+        @return color.adjust($background, $lightness: 20% - $lightness);
+      }
+    }
+  }
+}
+
+@function get-link-color($background) {
+  $isDark: is-dark($background);
+  $lightness: 50%;
+  @if $isDark {
+    $lightness: -10%
+  }
+  $textColor: get-text-for($background);
+  $hue: color.hue($textColor);
+  @return color.adjust($textColor,
+    $hue: $hue - 140,
+    $saturation: 100%,
+    $lightness: $lightness
+  );
+}
+
+@function make-palette($theme, $params) {
+  $hue: map.get($params, hue);
+  $saturation: map.get($params, saturation);
+  $light-offset: map.get($params, light-offset);
+  $palette: [];
+  $start: 0;
+  $end: 23;
+  @if $theme == 'light' {
+    $start: 23;
+    $end: 0
+  }
+  @for $i from $start through $end {
+    $lightness: ((100 - $light-offset) * math.div($i, 23)) + $light-offset;
+    $background: hsl($hue, $saturation, $lightness);
+    $border: -20%;
+    @if $lightness < 60 {
+      $border: $border * -1;
+    }
+    $palette: list.append($palette, (
+      background: $background,
+      text: get-text-for($background),
+      softText: get-text-for($background, $soft: true),
+      tintedText: get-text-for($background, $grayscale: false),
+      softTintedText: get-text-for($background, $grayscale: false, $soft: true),
+      linkText: get-link-color($background),
+      border: color.adjust($background, $lightness: $border),
+      percent: color.lightness($background)
+    ));
+  }
+  @return $palette;
+}
+
+////////////////////////////////////////////////////
+//  Variables
+//
+
+$config: () !default;
+$config: map.deep-merge((
+  widths: (800px, 1200px),
+  family: "Helvetica, Ariel, sans-serif",
+  size: 16px,
+  weight: 100,
+  thickness: 2px,
+  depth: 0,
+  roundness: 12px,
+  translucency: .2,
+  whitespace: 1,
+  // v-whitespace: this.whitespace,
+  // h-whitespace: this.whitespace,
+  duration: .2s,
+  colors: (
+    neutral: (hue:   0, saturation:  0%, light-offset: 0%),
+    primary: (hue: 220, saturation: 50%, light-offset: 0%),
+     accent: (hue:  30, saturation: 50%, light-offset: 0%),
+     danger: (hue:   0, saturation: 50%, light-offset: 0%),
+    warning: (hue:  40, saturation: 50%, light-offset: 0%),
+    success: (hue: 120, saturation: 50%, light-offset: 0%),
+  ),
+), $config);
+
+$thickness: map.get($config, thickness);
+$roundness: map.get($config, roundness);
+$translucency: map.get($config, translucency);
+
+$foo: get-from-map(map.get($config, whitespace), $config, v-whitespace);
+$bar: map.get($config, whitespace);
+@debug($foo);
+@debug($bar);
+
+$v-whitespace: get-from-map(map.get($config, whitespace), $config, v-whitespace);
+$h-whitespace: get-from-map(map.get($config, whitespace), $config, h-whitespace);
+
+$themes: dark, light;
+$palettes: neutral, primary, accent, danger, warning, success;
+@each $theme in $themes {
+  @each $palette in $palettes {
+    $params: map.get($config, colors, $palette);
+    $config: map.set(
+      $config,
+      themes,
+      $theme,
+      $palette,
+      make-palette($theme, $params)
+    );
+  }
+}
+
+////////////////////////////////////////////////////
+//  Mixins
+//
+
+@mixin INVALID_STYLE() {
+  outline: dashed 5px red;
+}
+
+@mixin disabled($theme) {
+  @if ($theme == light) {
+    filter: grayscale(.8) contrast(30%) brightness(1.6);
+  } @else if ($theme == dark) {
+    filter: grayscale(.4) contrast(50%) brightness(.6);
+  } @else {
+    @include INVALID_STYLE();
+  }
+}
+
+@mixin round($factor: 1) {
+  @if $roundness != 0 {
+    border-radius: #{$roundness * $factor};
+  }
+}
+
+@mixin slate($palette, $index: 3) {
+  background: #{map.get(list.nth($palette, $index), background)};
+  color: #{map.get(list.nth($palette, $index), text)};
+}
+
+@mixin box($palette, $index: 3) {
+  @include slate($palette, $index);
+  border: solid 1px #{map.get(list.nth($palette, $index), border)};;
+}
+
+@mixin panel($palette, $index) {
+  @include round();
+  @include box($palette, $index);
+  box-sizing: border-box;
+  margin: 2rem 0 4rem;
+  padding: 2rem;
+  &>h1,&>h2,&>h3,&>h4,&>h5,&>h6{
+    &:first-child{
+      margin-top: 0;
+    }
+    &:last-child{
+      margin-bottom: 0;
+    }
+  }
+}
+
+@mixin frost($palette, $index: 3) {
+  $background: #{map.get(list.nth($palette, $index), background)};
+  $border: #{map.get(list.nth($palette, $index), border)};
+  $text: #{map.get(list.nth($palette, $index), text)};
+  @if $transluceny != 0 {
+    -webkit-backdrop-filter: blur($translucency);
+    backdrop-filter: blur($translucency);
+  }
+  background: $background;
+  border: solid 1px $border;
+  color: $text;
+}
+
+@mixin themed-styles($theme, $index: 5) {
+  $neutralPalette: map.get($config, themes, $theme, neutral);
+  $neutralShade: list.nth($neutralPalette, $index);
+
+  // NEUTRAL STYLES
+  padding: 3em;
+  background: #{map.get($neutralShade, background)};
+  color: #{map.get($neutralShade, text)};
+
+  a,a:visited{
+    color: #{map.get($neutralShade, linkText)};
+  }
+
+  // PALETTE STYLES
+  @each $palette-name in $palettes {
+    $palette: map.get($config, themes, $theme, $palette-name);
+  }
+}
+
+////////////////////////////////////////////////////
+//  Styles
+//
+
+
+@media (prefers-color-scheme: light) {
+  body:not(.dark){
+    @include themed-styles(light, 1);
+  }
+  body.dark{
+    @include themed-styles(dark, 5);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body:not(.light){
+    @include themed-styles(dark, 5);
+  }
+  body.light{
+    @include themed-styles(light, 1);
+  }
+}
+
+
+
+
+@each $theme in $themes {
+
+
+
+  .#{$theme}{
+
+
+
+    @each $palette-name in $palettes {
+      $palette: map.get($config, themes, $theme, $palette-name);
+      .#{$palette-name} {
+        .app{
+          padding: 3em;
+          background: #{map.get(list.nth($palette, 1), background)};
+          color: #{map.get(list.nth($palette, 1), text)};
+        }
+        button{
+          border-radius: $roundness;
+          box-sizing: border-box;
+          clear: both;
+          cursor: pointer;
+          font-size: 1em;
+          font-weight: bold;
+          margin: .6em 0 .6em 0;
+          padding: #{.6 * $v-whitespace}em #{1.6 * $h-whitespace}em;
+
+          & + button{
+            margin-left: .6em;
+          }
+
+          background: #{map.get(list.nth($palette, 6), background)};
+          color: #{map.get(list.nth($palette, 6), text)};
+          border: solid $thickness #{map.get(list.nth($palette, 6), border)};
+
+          &.outline{
+            background: transparent;
+          }
+
+          &:hover:not(:disabled){
+            background: #{map.get(list.nth($palette, 8), background)};
+            color: #{map.get(list.nth($palette, 8), text)};
+            border-color: #{map.get(list.nth($palette, 8), border)};
+          }
+          &:active:not(:disabled){
+            background: #{map.get(list.nth($palette, 7), background)};
+            color: #{map.get(list.nth($palette, 7), text)};
+            border-color: #{map.get(list.nth($palette, 7), border)};
+          }
+          &:disabled{
+            cursor: not-allowed;
+            @include disabled($theme);
+          }
+        }
+      }
+      @for $i from 1 through length($palette) {
+        $map: list.nth($palette, $i);
+        .#{$palette-name}-#{$i}{
+          background: #{map.get($map, background)};
+          color: #{map.get($map, text)};
+          &.shade::after{
+            padding: .2em .4em;
+            border: solid 1px #{map.get($map, border)};
+            content: "#{$palette-name}-#{$i} / #{math.round(map.get($map, percent))}"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// @each $themeKey, $themeOffset in $themeNames {
+//   @each $palette in $paletteNames {
+//     $palette: map.get($config, palettes, $palette);
+//     $c00: list.nth($palette,  1);
+//     $c01: list.nth($palette,  2);
+//     $c02: list.nth($palette,  3);
+//     $c03: list.nth($palette,  4);
+//     $c04: list.nth($palette,  5);
+//     $c05: list.nth($palette,  6);
+//     $c06: list.nth($palette,  7);
+//     $c07: list.nth($palette,  8);
+//     $c08: list.nth($palette,  9);
+//     $c09: list.nth($palette, 10);
+//     $c10: list.nth($palette, 11);
+//     $c11: list.nth($palette, 12);
+//     $c12: list.nth($palette, 13);
+//     $c13: list.nth($palette, 14);
+//     $c14: list.nth($palette, 15);
+//     $c15: list.nth($palette, 16);
+//     $c16: list.nth($palette, 17);
+//     $c17: list.nth($palette, 18);
+//     $c18: list.nth($palette, 19);
+//     $c19: list.nth($palette, 20);
+//     $c20: list.nth($palette, 21);
+//     $c21: list.nth($palette, 22);
+//     $c22: list.nth($palette, 23);
+//     $c23: list.nth($palette, 24);
+
+//     $colors: map.deep-merge($colors, (
+//       #{themeKey}: (
+//         #{$palette}: (
+//           button-normal-background: $c12,
+//           button-normal-border: $c12,
+//           button-normal-text: $c12,
+//           button-hover-background: $c12,
+//           button-hover-border: $c12,
+//           button-hover-text: $c12,
+//           button-active-background: $c12,
+//           button-active-border: $c12,
+//           button-active-text: $c12,
+
+//           input-normal-background: $c12,
+//           input-normal-border: $c12,
+//           input-normal-text: $c12,
+//           input-hover-background: $c12,
+//           input-hover-border: $c12,
+//           input-hover-text: $c12,
+//           input-focus-background: $c12,
+//           input-focus-border: $c12,
+//           input-focus-text: $c12,
+
+
+//           body-background: $c01,
+
+//           app-background: $c03,
+//           app-border: $c05,
+//           app-text: $c23,
+
+//           slate-background: $c04,
+//           slate-border: $c08,
+//           slate-text: $c23,
+
+//         )
+//       )
+//     ));
+//   }
+// }
+
+
+// @mixin round($factor: 1) {
+//   $roundness: map.get($config, roundness);
+//   @if $roundness != 0 {
+//     border-radius: #{$roundness * $factor};
+//   }
+// }
+
+// @mixin slate($theme, $color) {
+//   $background: map.get($config, $theme, $color, slate, background);
+//   $border: map.get($config, $theme, $color, slate, border);
+//   $text: map.get($config, $theme, $color, slate, text);
+//   background: $background;
+//   border: solid 1px $border;
+//   color: $text;
+// }
+
+// @mixin frost($theme, $color) {
+//   $transluceny: map.get($config, transluceny);
+//   $background: map.get($config, $theme, $color, frost, background);
+//   $border: map.get($config, $theme, $color, frost, border);
+//   $text: map.get($config, $theme, $color, frost, text);
+//   @if $transluceny != 0 {
+//     -webkit-backdrop-filter: blur(10px);
+//     backdrop-filter: blur(10px);
+//   }
+//   background: $background;
+//   border: solid 1px $border;
+//   color: $text;
+// }
+
+// @mixin panel($theme, $color) {
+//   @include round();
+//   @include slate($theme, $color);
+//   box-sizing: border-box;
+//   margin: 2rem 0 4rem;
+//   padding: 2rem;
+//   &>h1,&>h2,&>h3,&>h4,&>h5,&>h6{
+//     &:first-child{
+//       margin-top: 0;
+//     }
+//     &:last-child{
+//       margin-bottom: 0;
+//     }
+//   }
+// }
+
+// @mixin panel-with-colors($theme) {
+//   @include panel($theme, base);
+//   &.primary{ @include panel($theme, primary); }
+//   &.accent{ @include panel($theme, accent); }
+//   &.danger{ @include panel($theme, danger); }
+//   &.warning{ @include panel($theme, warning); }
+//   &.success{ @include panel($theme, success); }
+//   &.info{ @include panel($theme, info); }
+// }
+
+// @mixin button($theme, $color) {
+//   $background: map.get($config, $theme, $color, button, background);
+//   $border: map.get($config, $theme, $color, button, border);
+//   $text: map.get($config, $theme, $color, button, text);
+
+//   $hover-background: map.get($config, $theme, $color, button, hover-background);
+
+//   $active-background: map.get($config, $theme, $color, button, active-background);
+//   $active-text: map.get($config, $theme, $color, button, active-text);
+
+//   @include round();
+//   background: $background;
+//   border: solid 1px $border;
+//   color: $text;
+//   &:hover{
+//     background: $hover-background;
+//   }
+//   &:active{
+//     background: $active-background;
+//     color: $active-text;
+//   }
+// }
+
+// @mixin styles($theme) {
+//   html,body,*{
+//     transition: background map.get($config, duration) ease,
+//       border-color map.get($config, duration) ease,
+//       color map.get($config, duration) ease;
+//   }
+
+//   html{
+//     overflow: hidden;
+//   }
+//   html,body{
+//     box-sizing: border-box;
+//     height: 100%;
+//     margin: 0;
+//     padding: 0;
+//   }
+//   body{
+//     overflow: auto;
+//     font-family: Helvetica, Arial, sans-serif;
+//     font-size: 18px;
+//     line-height: 1.7em;
+//     background: map.get($config, $theme, base, background);
+//     color: map.get($config, $theme, base, text);
+//   }
+
+//   .icon {
+//     font-family: 'Material Icons';
+//     font-weight: map.get($config, weight);
+//     font-style: normal;
+//     font-size: calc(2 * map.get($config, size));
+//     display: inline-block;
+//     line-height: 1;
+//     text-transform: none;
+//     letter-spacing: normal;
+//     word-wrap: normal;
+//     white-space: nowrap;
+//     direction: ltr;
+//     -webkit-font-smoothing: antialiased;
+//     text-rendering: optimizeLegibility;
+//     -moz-osx-font-smoothing: grayscale;
+//   }
+
+//   a,a:visited{
+//     color: map.get($config, $theme, primary, link);
+//     &:not(:hover){
+//       text-decoration: none;
+//     }
+//   }
+
+//   h1,h2,h3,h4,h5,h6{
+//     font-weight: 100;
+//     line-height: 1em;
+//     margin: 1em 0 .4em;
+//     padding: 0;
+//   }
+//   h4,h5,h6{
+//     font-weight: 700;
+//   }
+//   h1{ font-size: 4rem; }
+//   h2{ font-size: 3.2rem; }
+//   h3{ font-size: 2.4rem; }
+//   h4{ font-size: 1.7rem; }
+//   h5{ font-size: 1.4rem; }
+//   h6{ font-size: 1.1rem; }
+//   p{
+//     margin: 0 0 1rem;
+//   }
+//   blockquote{
+//     border-left: .6rem solid map.get($config, $theme, primary, border);
+//     padding: 0 1rem;
+//     margin: 3rem 2rem;
+//     font-size: 1.3rem;
+//     line-height: 1.7em;
+//     color: map.get($config, $theme, base, soft-text);
+//   }
+//   code{
+//     @include round();
+//     @include slate($theme, base);
+//     display: inline-block;
+//     padding: 0 .4em;
+//     margin: 0 .2em;
+//     font-family: 'Courier New', Courier, monospace;
+//   }
+//   pre > code{
+//     @include panel($theme, base);
+//     display: block;
+//     // border-style: solid;
+//     // border-width: 1px;
+//     // padding: 1em;
+//     // margin: 1em 0;
+//   }
+
+
+//   $i: 600;
+//   @while $i <= 1400 {
+//     $half: math.div($i, 2);
+//     body.fixed-#{$i}{
+//       &>header{
+//         box-sizing: content-box;
+//         max-width: #{$i}px;
+//         padding-left: calc(50% - #{$half}px);
+//         padding-right: calc(50% - #{$half}px);
+//       }
+//       &>*:not(.full,header) {
+//         max-width: min(#{$i}px, 90vw);
+//         margin-left: auto;
+//         margin-right: auto;
+//       }
+//     }
+//     $i: $i + 100;
+//   }
+
+
+
+
+//   body > header{
+//     @include frost($theme, base);
+//     border-top-width: 0;
+//     border-left-width: 0;
+//     border-right-width: 0;
+//     display: flex;
+//     flex-direction: row;
+//     left: 0;
+//     margin-bottom: 2rem;
+//     padding: 1em 2em;
+//     position: sticky;
+//     right: 0;
+//     top: 0;
+//     z-index: 10;
+
+//     h1,h2{
+//       flex: 1;
+//       margin: 0;
+//       padding: 0;
+//       font-size: 1.6em;
+//     }
+
+//     a{
+//       padding: 0 1rem;
+
+//       &.active{
+//         color: map.get($config, $theme, base, text);
+//         &:hover{
+//           text-decoration: none;;
+//         }
+//       }
+//     }
+//   }
+
+
+
+
+
+//   .tabs{
+//     @include panel($theme, base);
+//     display: flex;
+//     flex-direction: row;
+//     flex-wrap: nowrap;
+//     padding: 0;
+//     margin: 2rem 2rem 0;
+//     border-bottom-left-radius: 0;
+//     border-bottom-right-radius: 0;
+//     overflow: auto;
+//     background: map.get($config, $theme, base, background);
+//     font-weight: bold;
+//     .tab{
+//       display: inline-block;
+//       padding: .8em 2em;
+//       cursor: pointer;
+//       user-select: none;
+//       &:hover{ background: map.get($config, $theme, base, hover-background); }
+//       &.active{
+//         background: map.get($config, $theme, base, active-background);
+//         color: map.get($config, $theme, primary, active-text);
+//       }
+//     }
+//   }
+//   .tab-content{
+//     @include panel($theme, base);
+//     border-top-left-radius: 0;
+//     border-top-right-radius: 0;
+//     border-top-width: 0;
+//     // border-bottom-left-radius: .6em;
+//     // border-bottom-right-radius: .6em;
+//     // border-width: 1px;
+
+//     // border-style: solid;
+//     box-sizing: border-box;
+//     border-top-width: 0;
+//     display: block;
+//     overflow: hidden;
+//     margin-top: 0;
+//   }
+
+
+
+//   .alert{
+//     @include panel-with-colors($theme);
+
+//     border-radius: 0;
+//     border-style: solid;
+//     border-top-width: 1px;
+//     border-bottom-width: 1px;
+//     margin: 0;
+//     max-width: 100%;
+//     width: 100%;
+//   }
+
+
+//   .card{
+//     @include panel($theme, base);
+//     display: block;
+//     border-style: solid;
+//     border-width: 1px;
+//     box-sizing: border-box;
+
+//     & > header{
+//       display: flex;
+//       align-items: flex-start;
+//       border: 0;
+//       padding: 0;
+
+//       h1,h2,h3,h4,h5,h6{
+//         flex: 1;
+//         &:first-child{
+//           margin-top: 0;
+//         }
+//       }
+//     }
+
+//     &.warning{
+//       border-color: #{pitch($warning, 45)};
+//       background: #{pitch($warning, -5)};
+//       color: #{text($warning)};
+//     }
+//     &.danger{
+//       border-color: #{pitch($danger, 45)};
+//       background: #{pitch($danger, -5)};
+//       color: #{text($danger)};
+//     }
+//     &.success{
+//       border-color: #{pitch($success, 45)};
+//       background: #{pitch($success, -5)};
+//       color: #{text($success)};
+//     }
+//     &.primary{
+//       border-color: #{pitch($primary, 45)};
+//       background: #{pitch($primary, -5)};
+//       color: #{text($primary)};
+//     }
+
+//     & > .actions{
+//       text-align: right;
+//       // margin-bottom: .6em;
+//       padding: .4em;
+//     }
+//   }
+
+
+
+
+
+//   fieldset{
+//     @include panel($base);
+//     legend{
+//       @include round();
+//       $pitch: -5;
+//       font-weight: bold;
+//       border: solid 1px #{pitch($base, 15)};
+//       background: #{pitch($base, $pitch)};
+//       color: #{text(pitch($base, $pitch))};
+//       padding: .4em 1em;
+//     }
+//   }
+
+
+
+
+
+//   label{
+//     box-sizing: border-box;
+//     color: #{pitch($text, 15)};
+//     display: block;
+//     margin: 1em 0;
+
+//     &.inline{
+//       display: inline;
+//       margin: 0;
+//     }
+//     &:hover,
+//     &:focus-within,
+//     &:active{
+//       color: #{pitch($primary, 30)}; // TODO text animating slower than border color
+//     }
+//     &>span{
+//       display: block;
+//     }
+//     input:not(
+//       [type=checkbox],
+//       [type=radio]
+//     ),
+//     select{
+//       width: 100%;
+//       box-sizing: border-box;
+//       margin: 0 0 .6em;
+//     }
+//     &.danger{
+//       color: #{pitch($danger, 10)};
+//       font-weight: bold;
+//       &:hover,
+//       &:focus-within,
+//       &:active{
+//         color: #{pitch($danger, 10)}; // TODO text animating slower than border color
+//       }
+//     }
+//   }
+
+
+
+
+
+//   input:not(
+//     [type=checkbox],
+//     [type=radio]
+//   ),
+//   select{
+//     @include round();
+//     $background: pitch($base, 2);
+//     -moz-appearance: none;
+//     -webkit-appearance: none;
+//     background: #{$background};
+//     border: solid 2px #{pitch($base, 7)};
+//     box-sizing: border-box;
+//     color: #{text($background)};
+//     font-size: 1.2rem;
+//     height: 2.7em;
+//     margin: .6em 0;
+//     outline: none;
+//     padding: .6em;
+//     position: relative;
+//     width: 100%;
+//     &:hover,
+//     &:focus{
+//       border-color: #{pitch($primary, 30)}; // TODO text animating slower than border color
+//     }
+//   }
+//   label.disabled{
+//     color: #{gray(text(pitch($base, 2)))};
+//     // TODO disabled text color
+//   }
+//   label.danger{
+//     select,
+//     input:not(
+//       [type=checkbox],
+//       [type=radio]
+//     ) {
+//       border-color: #{pitch($danger, 0)}; // TODO text animating slower than border color
+//     }
+//     &:hover,
+//     &:focus{
+//       select,
+//       input:not(
+//         [type=checkbox],
+//         [type=radio]
+//       ) {
+//         border-color: #{pitch($danger, 10)}; // TODO text animating slower than border color
+//       }
+//     }
+//   }
+
+
+
+
+//   input[type=checkbox],
+//   input[type=radio]{
+//     appearance: none;
+//     background: #{$base};
+//     border: .15em solid #{pitch($base, 40)};
+//     cursor: pointer;
+//     display: inline-block;
+//     height: 1.8em;
+//     position: relative;
+//     vertical-align: top;
+//     width: 1.8em;
+//     position: relative;
+//     display: inline-block;
+
+//     &::before {
+//       position: absolute;
+//       top: -60%;
+//       left: 45%;
+//       content: "";
+//       display: inline-block;
+//       height: 24px;
+//       width: 8px;
+//       border-bottom: solid .3em #{pitch($primary, 20)};
+//       border-right: solid .3em #{pitch($primary, 20)};
+//       transform: rotate(45deg) scale(0);
+//       transition: transform $duration ease;
+//     }
+
+//     &:checked{
+//       border-color: #{pitch($primary, 20)};
+//     }
+//     &:checked::before{
+//       transform: rotate(45deg) scale(1);
+//     }
+//     &:hover{
+//       border-color: #{pitch($primary, 30)}; // TODO text animating slower than border color
+//     }
+//     &[disabled],
+//     &[disabled]:hover{
+//       border-color: #{gray(text(pitch($base, 2)))};
+//     }
+//   }
+//   label > input[type=checkbox],
+//   label > input[type=radio]{
+//     &[disabled]{
+//       color: #{gray(text(pitch($base, 2)))};
+//       cursor: not-allowed;
+//       & + span,
+//       & + span:hover{
+//         color: #{gray(text(pitch($base, 2)))};
+//         cursor: not-allowed;
+//       }
+//     }
+//     & + span{
+//       display: inline-block;
+//       cursor: pointer;
+//     }
+//   }
+//   label.danger > input[type=checkbox],
+//   label.danger > input[type=radio]{
+//     // border-color: #{pitch($base, 40)}; // TODO text animating slower than border color
+//     &::before{
+//       background: #{pitch($danger, -10)}; // TODO text animating slower than border color)});
+//     }
+//     &:hover &::before{
+//       background: #{pitch($danger, 50)};
+//       // border-color: #{pitch($danger, 10)}; // TODO text animating slower than border color
+//     }
+//   }
+
+//   input[type=checkbox]{
+//     @include round(.5);
+//     &::before{
+//       border-radius: .1em;
+//     }
+//   }
+//   input[type=radio]{
+//     border-radius: 1em;
+//     &::before{
+//       border-radius: 8px;
+//     }
+//   }
+
+
+
+
+
+//   button{
+//     @include button($base);
+//     box-sizing: border-box;
+//     clear: top;
+//     cursor: pointer;
+//     font-size: 1em;
+//     font-weight: bold;
+//     margin: .6em 0 .6em .6em;
+//     // outline: none;
+//     padding: .6em 1.6em;
+
+//     // & + button{
+//     //   margin-left: .6em;
+//     // }
+//     &.neutral{
+//       @include button(rgba($base, .3));
+//     }
+//     &.warning{
+//       @include button($warning);
+//     }
+//     &.danger{
+//       @include button($danger);
+//     }
+//     &.primary{
+//       @include button($primary);
+//     }
+//     &.success{
+//       @include button($success);
+//     }
+//     &:disabled{
+//       background: #{gray(pitch($base, 10))};
+//       border-color: #{gray(pitch($base, 15))};
+//       box-shadow: none !important;
+//       color: #{pitch(gray(text(pitch($base, 10))), 30)};
+//       cursor: not-allowed;
+//     }
+//   }
+
+//   button.icon{
+//     // background: transparent;
+//     // border: solid 1px transparent;
+//     // border-radius: 50%;
+//     width: 48px;
+//     height: 48px;
+//     padding: 0;
+//     position: relative;
+//     margin-top: 0;
+//     margin-bottom: 0;
+
+
+//     &.closed {
+//       &:hover{
+//         &::before, &::after{
+//           background: var(--default-l60);
+//         }
+//       }
+//       &::before, &::after {
+//         position: absolute;
+//         content: ' ';
+//         height: 32px;
+//         width: 2px;
+//         top: 0;
+//         background: var(--default-l20);
+//       }
+//       &:before {
+//         transform: rotate(45deg);
+//       }
+//       &:after {
+//         transform: rotate(-45deg);
+//       }
+//     }
+//   }
+
+
+//   table{
+//     @include round();
+//     display: block;
+//     overflow: auto;
+//     border-collapse: collapse;
+//     border-spacing: 0;
+//     width: 100%;
+
+
+//     th,td{
+//       text-align: left;
+//       padding: .4em 1.2em;
+
+//       &.center{
+//         text-align: center;
+//       }
+//       &.right{
+//         text-align: right;
+//       }
+//       &.tight{
+//         width: 1px;
+//         white-space: nowrap;
+//       }
+//       &.wide{
+//         width: 100%;
+//       }
+//     }
+
+//     thead tr{
+//       background: #{pitch($primary, 0)};
+//     }
+//     tbody tr:nth-child(even){
+//       background: #{pitch($base, 10)};
+//     }
+//     tbody tr:nth-child(odd){
+//       background: #{pitch($base, 5)};
+//     }
+//   }
+
+
+
+//   @keyframes spinner {
+//     to {transform: rotate(360deg);}
+//   }
+//   .spinner{
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     max-width: 100% !important;
+//     background: #{rgba($base, .9)};
+//     z-index: 9999;
+//   }
+//   .spinner::before {
+//     content: '';
+//     box-sizing: border-box;
+//     position: absolute;
+//     top: calc(50% - 5rem);
+//     left: calc(50% - 5rem);
+//     width: 10rem;
+//     height: 10rem;
+//     border-radius: 50%;
+//     border: .2rem solid #{pitch($base, 10)};
+//     border-top-color: #{pitch($primary, 20)};
+//     animation: spinner #{$duration + .2} linear infinite;
+//   }
+// }
+
+// :root{
+//   color-scheme: light dark;
+// }
+
+// @media (prefers-color-scheme: light) {
+//   @include styles(light);
+// }
+
+// @media (prefers-color-scheme: dark) {
+//   @include styles(dark);
+// }

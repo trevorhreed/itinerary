@@ -1,0 +1,940 @@
+/**
+
+    Todo:
+      - redo coloring
+      - update button borders:
+        - in light mode: make them appear less black
+        - in dark mode: make them appear lighter?
+      - add a few basic icones:
+        - save
+        - edit
+        - delete
+        - view / details
+        - close
+        - drag
+        - fullscreen
+        - ???
+        - https://codepen.io/anon/pen/NqOaRb?editors=0100
+
+*/
+
+@use 'sass:math';
+@use 'sass:color';
+@use 'sass:map';
+
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
+
+
+$config: () !default;
+$config: map.deep-merge($config, (
+  size: 16px,
+  family: "Helvetica, Ariel, sans-serif",
+  weight: 100,
+  depth: 0,
+  roundness: .4rem,
+  translucency: .2,
+  whitespace: 0,
+  duration: .2s,
+
+  /*
+      color
+      background
+      border
+
+      box-shadow
+      text-shadow
+      outline-color
+
+
+      app
+        background
+        text
+
+      header,footer?
+        background
+        border
+        text
+
+      alerts
+        background
+        border
+        text
+
+      nav
+
+      input
+        background
+        border
+        text
+
+        normal
+        active
+        hover
+
+      slate[card, ???]
+        background
+        border
+        text
+
+      fieldset
+      legend
+
+      tabs,accordion
+        background
+        border
+        text
+
+      table
+        header
+          background
+          border
+          text
+        row
+          background / alternate
+          border
+          text
+
+      headings
+      paragraphs
+      blockquotes
+      lists
+
+
+      backgrounds:
+        core
+        backdrop
+        app
+        slate
+        button
+
+        line
+        hover
+        active
+
+      text:
+        app
+        slate
+        button
+
+      lines:
+        slate
+        button
+        blockquote?
+
+  */
+
+
+  dark: (
+    base: (
+      core: #222,
+      app: #333,
+      slate: #444,
+
+      button: (
+        normal: (
+          background: #777,
+          text: #eee,
+          border: #aaa
+        ),
+        hover: (
+          background: #999,
+        ),
+        active: (
+          background: #888,
+        )
+      )
+
+      background: #333,
+      panel: #444,
+      line: #888,
+      text: #ccc
+    ),
+
+    primary: (
+      background: #333,
+      line: #888,
+      text: #ccc,
+      link: #acf
+    ),
+
+    accent: (
+      background: #333,
+      line: #888,
+      text: #ccc
+    ),
+
+    danger: (
+      background: #333,
+      line: #888,
+      text: #ccc
+    ),
+
+    warning: (
+      background: #333,
+      line: #888,
+      text: #ccc
+    ),
+
+    success: (
+      background: #333,
+      line: #888,
+      text: #ccc
+    ),
+
+    info: (
+      background: #333,
+      line: #888,
+      text: #ccc
+    )
+  ),
+
+  light: (
+    base: (
+      background: #333,
+      line: #888,
+      text: #ccc
+    ),
+
+    primary: (
+      background: #333,
+      line: #888,
+      text: #ccc
+    ),
+
+    accent: (
+      background: #333,
+      line: #888,
+      text: #ccc
+    ),
+
+    danger: (
+      background: #333,
+      line: #888,
+      text: #ccc
+    ),
+
+    warn: (
+      background: #333,
+      line: #888,
+      text: #ccc
+    ),
+
+    success: (
+      background: #333,
+      line: #888,
+      text: #ccc
+    ),
+
+    info: (
+      background: #333,
+      line: #888,
+      text: #ccc
+    )
+  )
+));
+
+
+@mixin round($factor: 1) {
+  $roundness: map.get($config, roundness);
+  @if $roundness != 0 {
+    border-radius: #{$roundness * $factor};
+  }
+}
+
+@mixin slate($theme, $color) {
+  $background: map.get($config, $theme, $color, slate, background);
+  $border: map.get($config, $theme, $color, slate, border);
+  $text: map.get($config, $theme, $color, slate, text);
+  background: $background;
+  border: solid 1px $border;
+  color: $text;
+}
+
+@mixin frost($theme, $color) {
+  $transluceny: map.get($config, transluceny);
+  $background: map.get($config, $theme, $color, frost, background);
+  $border: map.get($config, $theme, $color, frost, border);
+  $text: map.get($config, $theme, $color, frost, text);
+  @if $transluceny != 0 {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  background: $background;
+  border: solid 1px $border;
+  color: $text;
+}
+
+@mixin panel($theme, $color) {
+  @include round();
+  @include slate($theme, $color);
+  box-sizing: border-box;
+  margin: 2rem 0 4rem;
+  padding: 2rem;
+  &>h1,&>h2,&>h3,&>h4,&>h5,&>h6{
+    &:first-child{
+      margin-top: 0;
+    }
+    &:last-child{
+      margin-bottom: 0;
+    }
+  }
+}
+
+@mixin panel-with-colors($theme) {
+  @include panel($theme, base);
+  &.primary{ @include panel($theme, primary); }
+  &.accent{ @include panel($theme, accent); }
+  &.danger{ @include panel($theme, danger); }
+  &.warning{ @include panel($theme, warning); }
+  &.success{ @include panel($theme, success); }
+  &.info{ @include panel($theme, info); }
+}
+
+@mixin button($theme, $color) {
+  $background: map.get($config, $theme, $color, button, background);
+  $border: map.get($config, $theme, $color, button, border);
+  $text: map.get($config, $theme, $color, button, text);
+
+  $hover-background: map.get($config, $theme, $color, button, hover-background);
+
+  $active-background: map.get($config, $theme, $color, button, active-background);
+  $active-text: map.get($config, $theme, $color, button, active-text);
+
+  @include round();
+  background: $background;
+  // box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border: solid 1px $border;
+  color: $text;
+  &:hover{
+    background: $hover-background;
+    // border-color: #888;//#{pitch($color, 30)};
+    // box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  &:active{
+    background: $active-background;
+    color: $active-text;
+  }
+}
+
+@mixin styles($theme) {
+  html,body,*{
+    transition: background map.get($config, duration) ease,
+      border-color map.get($config, duration) ease,
+      color map.get($config, duration) ease;
+  }
+
+  html{
+    overflow: hidden;
+  }
+  html,body{
+    box-sizing: border-box;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  body{
+    overflow: auto;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.7em;
+    background: map.get($config, $theme, base, background);
+    color: map.get($config, $theme, base, text);
+  }
+
+  .icon {
+    font-family: 'Material Icons';
+    font-weight: map.get($config, weight);
+    font-style: normal;
+    font-size: calc(2 * map.get($config, size));
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a,a:visited{
+    color: map.get($config, $theme, primary, link);
+    &:not(:hover){
+      text-decoration: none;
+    }
+  }
+
+  h1,h2,h3,h4,h5,h6{
+    font-weight: 100;
+    line-height: 1em;
+    margin: 1em 0 .4em;
+    padding: 0;
+  }
+  h4,h5,h6{
+    font-weight: 700;
+  }
+  h1{ font-size: 4rem; }
+  h2{ font-size: 3.2rem; }
+  h3{ font-size: 2.4rem; }
+  h4{ font-size: 1.7rem; }
+  h5{ font-size: 1.4rem; }
+  h6{ font-size: 1.1rem; }
+  p{
+    margin: 0 0 1rem;
+  }
+  blockquote{
+    border-left: .6rem solid map.get($config, $theme, primary, border);
+    padding: 0 1rem;
+    margin: 3rem 2rem;
+    font-size: 1.3rem;
+    line-height: 1.7em;
+    color: map.get($config, $theme, base, soft-text);
+  }
+  code{
+    @include round();
+    @include slate($theme, base);
+    display: inline-block;
+    padding: 0 .4em;
+    margin: 0 .2em;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  pre > code{
+    @include panel($theme, base);
+    display: block;
+    // border-style: solid;
+    // border-width: 1px;
+    // padding: 1em;
+    // margin: 1em 0;
+  }
+
+
+  $i: 600;
+  @while $i <= 1400 {
+    $half: math.div($i, 2);
+    body.fixed-#{$i}{
+      &>header{
+        box-sizing: content-box;
+        max-width: #{$i}px;
+        padding-left: calc(50% - #{$half}px);
+        padding-right: calc(50% - #{$half}px);
+      }
+      &>*:not(.full,header) {
+        max-width: min(#{$i}px, 90vw);
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    $i: $i + 100;
+  }
+
+
+
+
+  body > header{
+    @include frost($theme, base);
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+
+    // background: #{rgba(pitch($base, 5), .7)};
+    // border-color: #{pitch($base, 45)};
+    // border-bottom-width: 1px;
+    // border-style: solid;
+    // border-width: 0;
+    display: flex;
+    flex-direction: row;
+    left: 0;
+    margin-bottom: 2rem;
+    padding: 1em 2em;
+    position: sticky;
+    right: 0;
+    top: 0;
+    z-index: 10;
+
+    h1,h2{
+      flex: 1;
+      margin: 0;
+      padding: 0;
+      font-size: 1.6em;
+    }
+
+    a{
+      padding: 0 1rem;
+
+      &.active{
+        color: map.get($config, $theme, base, text);
+        &:hover{
+          text-decoration: none;;
+        }
+      }
+    }
+  }
+
+
+
+
+
+  .tabs{
+    @include panel($theme, base);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 0;
+    margin: 2rem 2rem 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    overflow: auto;
+    background: map.get($config, $theme, base, background);
+    font-weight: bold;
+    .tab{
+      display: inline-block;
+      padding: .8em 2em;
+      cursor: pointer;
+      user-select: none;
+      &:hover{ background: map.get($config, $theme, base, hover-background); }
+      &.active{
+        background: map.get($config, $theme, base, active-background);
+        color: map.get($config, $theme, primary, active-text);
+      }
+    }
+  }
+  .tab-content{
+    @include panel($theme, base);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top-width: 0;
+    // border-bottom-left-radius: .6em;
+    // border-bottom-right-radius: .6em;
+    // border-width: 1px;
+
+    // border-style: solid;
+    box-sizing: border-box;
+    border-top-width: 0;
+    display: block;
+    overflow: hidden;
+    margin-top: 0;
+  }
+
+
+
+  .alert{
+    @include panel-with-colors($theme);
+
+    border-radius: 0;
+    border-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+
+
+  .card{
+    @include panel($theme, base);
+    display: block;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+
+    & > header{
+      display: flex;
+      align-items: flex-start;
+      border: 0;
+      padding: 0;
+
+      h1,h2,h3,h4,h5,h6{
+        flex: 1;
+        &:first-child{
+          margin-top: 0;
+        }
+      }
+    }
+
+    &.warning{
+      border-color: #{pitch($warning, 45)};
+      background: #{pitch($warning, -5)};
+      color: #{text($warning)};
+    }
+    &.danger{
+      border-color: #{pitch($danger, 45)};
+      background: #{pitch($danger, -5)};
+      color: #{text($danger)};
+    }
+    &.success{
+      border-color: #{pitch($success, 45)};
+      background: #{pitch($success, -5)};
+      color: #{text($success)};
+    }
+    &.primary{
+      border-color: #{pitch($primary, 45)};
+      background: #{pitch($primary, -5)};
+      color: #{text($primary)};
+    }
+
+    & > .actions{
+      text-align: right;
+      // margin-bottom: .6em;
+      padding: .4em;
+    }
+  }
+
+
+
+
+
+  fieldset{
+    @include panel($base);
+    legend{
+      @include round();
+      $pitch: -5;
+      font-weight: bold;
+      border: solid 1px #{pitch($base, 15)};
+      background: #{pitch($base, $pitch)};
+      color: #{text(pitch($base, $pitch))};
+      padding: .4em 1em;
+    }
+  }
+
+
+
+
+
+  label{
+    box-sizing: border-box;
+    color: #{pitch($text, 15)};
+    display: block;
+    margin: 1em 0;
+
+    &.inline{
+      display: inline;
+      margin: 0;
+    }
+    &:hover,
+    &:focus-within,
+    &:active{
+      color: #{pitch($primary, 30)}; // TODO text animating slower than border color
+    }
+    &>span{
+      display: block;
+    }
+    input:not(
+      [type=checkbox],
+      [type=radio]
+    ),
+    select{
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0 0 .6em;
+    }
+    &.danger{
+      color: #{pitch($danger, 10)};
+      font-weight: bold;
+      &:hover,
+      &:focus-within,
+      &:active{
+        color: #{pitch($danger, 10)}; // TODO text animating slower than border color
+      }
+    }
+  }
+
+
+
+
+
+  input:not(
+    [type=checkbox],
+    [type=radio]
+  ),
+  select{
+    @include round();
+    $background: pitch($base, 2);
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: #{$background};
+    border: solid 2px #{pitch($base, 7)};
+    box-sizing: border-box;
+    color: #{text($background)};
+    font-size: 1.2rem;
+    height: 2.7em;
+    margin: .6em 0;
+    outline: none;
+    padding: .6em;
+    position: relative;
+    width: 100%;
+    &:hover,
+    &:focus{
+      border-color: #{pitch($primary, 30)}; // TODO text animating slower than border color
+    }
+  }
+  label.disabled{
+    color: #{gray(text(pitch($base, 2)))};
+    // TODO disabled text color
+  }
+  label.danger{
+    select,
+    input:not(
+      [type=checkbox],
+      [type=radio]
+    ) {
+      border-color: #{pitch($danger, 0)}; // TODO text animating slower than border color
+    }
+    &:hover,
+    &:focus{
+      select,
+      input:not(
+        [type=checkbox],
+        [type=radio]
+      ) {
+        border-color: #{pitch($danger, 10)}; // TODO text animating slower than border color
+      }
+    }
+  }
+
+
+
+
+  input[type=checkbox],
+  input[type=radio]{
+    appearance: none;
+    background: #{$base};
+    border: .15em solid #{pitch($base, 40)};
+    cursor: pointer;
+    display: inline-block;
+    height: 1.8em;
+    position: relative;
+    vertical-align: top;
+    width: 1.8em;
+    position: relative;
+    display: inline-block;
+
+    &::before {
+      position: absolute;
+      top: -60%;
+      left: 45%;
+      content: "";
+      display: inline-block;
+      height: 24px;
+      width: 8px;
+      border-bottom: solid .3em #{pitch($primary, 20)};
+      border-right: solid .3em #{pitch($primary, 20)};
+      transform: rotate(45deg) scale(0);
+      transition: transform $duration ease;
+    }
+
+    &:checked{
+      border-color: #{pitch($primary, 20)};
+    }
+    &:checked::before{
+      transform: rotate(45deg) scale(1);
+    }
+    &:hover{
+      border-color: #{pitch($primary, 30)}; // TODO text animating slower than border color
+    }
+    &[disabled],
+    &[disabled]:hover{
+      border-color: #{gray(text(pitch($base, 2)))};
+    }
+  }
+  label > input[type=checkbox],
+  label > input[type=radio]{
+    &[disabled]{
+      color: #{gray(text(pitch($base, 2)))};
+      cursor: not-allowed;
+      & + span,
+      & + span:hover{
+        color: #{gray(text(pitch($base, 2)))};
+        cursor: not-allowed;
+      }
+    }
+    & + span{
+      display: inline-block;
+      cursor: pointer;
+    }
+  }
+  label.danger > input[type=checkbox],
+  label.danger > input[type=radio]{
+    // border-color: #{pitch($base, 40)}; // TODO text animating slower than border color
+    &::before{
+      background: #{pitch($danger, -10)}; // TODO text animating slower than border color)});
+    }
+    &:hover &::before{
+      background: #{pitch($danger, 50)};
+      // border-color: #{pitch($danger, 10)}; // TODO text animating slower than border color
+    }
+  }
+
+  input[type=checkbox]{
+    @include round(.5);
+    &::before{
+      border-radius: .1em;
+    }
+  }
+  input[type=radio]{
+    border-radius: 1em;
+    &::before{
+      border-radius: 8px;
+    }
+  }
+
+
+
+
+
+  button{
+    @include button($base);
+    box-sizing: border-box;
+    clear: top;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    margin: .6em 0 .6em .6em;
+    // outline: none;
+    padding: .6em 1.6em;
+
+    // & + button{
+    //   margin-left: .6em;
+    // }
+    &.neutral{
+      @include button(rgba($base, .3));
+    }
+    &.warning{
+      @include button($warning);
+    }
+    &.danger{
+      @include button($danger);
+    }
+    &.primary{
+      @include button($primary);
+    }
+    &.success{
+      @include button($success);
+    }
+    &:disabled{
+      background: #{gray(pitch($base, 10))};
+      border-color: #{gray(pitch($base, 15))};
+      box-shadow: none !important;
+      color: #{pitch(gray(text(pitch($base, 10))), 30)};
+      cursor: not-allowed;
+    }
+  }
+
+  button.icon{
+    // background: transparent;
+    // border: solid 1px transparent;
+    // border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+
+
+    &.closed {
+      &:hover{
+        &::before, &::after{
+          background: var(--default-l60);
+        }
+      }
+      &::before, &::after {
+        position: absolute;
+        content: ' ';
+        height: 32px;
+        width: 2px;
+        top: 0;
+        background: var(--default-l20);
+      }
+      &:before {
+        transform: rotate(45deg);
+      }
+      &:after {
+        transform: rotate(-45deg);
+      }
+    }
+  }
+
+
+  table{
+    @include round();
+    display: block;
+    overflow: auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+
+
+    th,td{
+      text-align: left;
+      padding: .4em 1.2em;
+
+      &.center{
+        text-align: center;
+      }
+      &.right{
+        text-align: right;
+      }
+      &.tight{
+        width: 1px;
+        white-space: nowrap;
+      }
+      &.wide{
+        width: 100%;
+      }
+    }
+
+    thead tr{
+      background: #{pitch($primary, 0)};
+    }
+    tbody tr:nth-child(even){
+      background: #{pitch($base, 10)};
+    }
+    tbody tr:nth-child(odd){
+      background: #{pitch($base, 5)};
+    }
+  }
+
+
+
+  @keyframes spinner {
+    to {transform: rotate(360deg);}
+  }
+  .spinner{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 100% !important;
+    background: #{rgba($base, .9)};
+    z-index: 9999;
+  }
+  .spinner::before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: calc(50% - 5rem);
+    left: calc(50% - 5rem);
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    border: .2rem solid #{pitch($base, 10)};
+    border-top-color: #{pitch($primary, 20)};
+    animation: spinner #{$duration + .2} linear infinite;
+  }
+
+}
+
+:root{
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: light) {
+  @include styles(light);
+}
+
+@media (prefers-color-scheme: dark) {
+  @include styles(dark);
+}
